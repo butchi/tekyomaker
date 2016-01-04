@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!-- 参考: http://javascript123.seesaa.net/article/106540781.html -->
+<html>
+<meta charset="utf-8">
+<head>
+<script src="jquery-1.7.2.min.js"></script>
+<script>
+function chkUrl(){
+	var checked = $('#urlRadio').attr('checked');
+	$('#urlText').attr('disabled', !checked);
+	$('#fileText').attr('disabled', checked);
+}
+function chkFile(){
+	var checked = $('#fileRadio').attr('checked');
+	$('#urlText').attr('disabled', checked);
+	$('#fileText').attr('disabled', !checked);
+}
+</script>
+<style>
+</style>
+</head>
+<body>
+<form name="form1">
+	<label><input id="urlRadio" type="radio" name="radio1" onclick="chkUrl()" checked>URL
+	<input id="urlText" type="url" name="url" size="70" value="http://butchi.jp/" onClick="chkUrl()"><br />
+	<label><input id="fileRadio" type="radio" name="radio1" onclick="chkFile()">ファイル</label>
+	<input id="fileText" type="file" name="file" size="70" disabled>
+</form>
+</body>
+</html>

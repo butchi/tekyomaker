@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-// 11 スポンサーinput追加、想定外の改行が起こったのでwidth設定
+// 10 注意のフォントを小さい灰色に、デフォルトで画像を表示しない、スポンサーのサイズ変更追加
 class Face {
 	public $rx;
 	public $ry;
