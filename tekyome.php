@@ -4,7 +4,7 @@
 <head>
 <script src="jquery-1.7.2.min.js"></script>
 <?php
-// 15 Twitterにつぶやく機能追加、f=1からf=2に変更（目が検出されない場合がある問題解消）
+// 16 画像読み込みの例外処理
 class Face {
 	public $rx;
 	public $ry;
@@ -22,7 +22,8 @@ if(isset($_GET['imageUrl']) && $_GET['imageUrl']!='') {
 }
 
 if($imageUrl!='') {
-	$xml = simplexml_load_file('http://detectface.com/api/detect?url='.urlencode($imageUrl).'&f=2') or die("XMLパースエラー");
+	$faceUrl = 'http://detectface.com/api/detect?url='.urlencode($imageUrl).'&f=2';
+	$xml = @simplexml_load_file($faceUrl);
 	for ($iCounter = 0; $iCounter< count($xml->face); $iCounter++){
 		$face[$iCounter] = new Face();
 		$rxTmp = $xml->xpath('face[@id='.$iCounter.']/features/point[@id="PR"]/@x');
@@ -161,7 +162,8 @@ if(count($face)==0 && $imageUrl!="") {
 <h1>提供目ーカー</h1>
 <form name="form1" method="get" action="<?php echo $_SERVER['SCRIPT_NAME'] ?>">
 	<label><input id="urlRadio" type="radio" name="type" value="imageUrl" onclick="chkUrl()"<?php if($_GET['type']=='imageUrl' || !isset($_GET['type'])) print(' checked'); ?>>URL
-	<input id="imageUrlText" type="url" name="imageUrl" size="70" value="<?php print(($_GET['imageUrl']!='')? $_GET['imageUrl'] : 'http://ec2.images-amazon.com/images/I/51-z7BZTYrL.jpg'); ?>"<?php if(isset($_GET['type']) && $_GET['type']!='imageUrl') print(' disabled'); ?> onClick="chkUrl()" /></label><br />
+	<input id="imageUrlText" type="url" name="imageUrl" size="70" value="<?php print(($_GET['imageUrl']!='')? $_GET['imageUrl'] : 'http://ec2.images-amazon.com/images/I/51-z7BZTYrL.jpg'); ?>"<?php if(isset($_GET['type']) && $_GET['type']!='imageUrl') print(' disabled'); ?> onClick="chkUrl()" /></label>対応画像形式: JPEG、PNG
+<br />
 	<label><input id="twitterRadio" type="radio" name="type" value="twitter" onclick="chkTwitter()"<? if($_GET['type']=='twitter') print(' checked'); ?> />Twitter ID
 	<input id="twitterText" type="text" name="twitterID" size="30" value="<?php print(($_GET['twitterID']!='')? $_GET['twitterID'] : '') ?>"<? if($_GET['type']!='twitter') print(' disabled'); ?> /></label>
 	<div><label>スポンサー1<input type="text" name="sponsor[]" value="<?php print($sponsor[0]); ?>" /></label></div>
