@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-// 11 スポンサーinput追加、想定外の改行が起こったのでwidth設定
+// 12 大きい画像で中央に揃わなかったのでwidthを広めに設定、顔が検出されなかったときのデフォルト提供を追加
 class Face {
 	public $rx;
 	public $ry;
@@ -63,7 +63,7 @@ for ($iCounter = 0; $iCounter<count($face); $iCounter++){
 	-webkit-transform: rotate('.($face[$iCounter]->rotation).'rad);
 	-o-transform: rotate('.($face[$iCounter]->rotation).'rad);
 	-ms-transform: rotate('.($face[$iCounter]->rotation).'rad);
-	}
+}
 #kyo'.$iCounter.' {
 	position: absolute;
 	left:'.($face[$iCounter]->lx-$face[$iCounter]->size/2).'px;
@@ -73,11 +73,11 @@ for ($iCounter = 0; $iCounter<count($face); $iCounter++){
 	-webkit-transform: rotate('.($face[$iCounter]->rotation).'rad);
 	-o-transform: rotate('.($face[$iCounter]->rotation).'rad);
 	-ms-transform: rotate('.($face[$iCounter]->rotation).'rad);
-	}
+}
 #sponsor'.$iCounter.' {
 	font-size:'.($face[$iCounter]->size).'px;
-	width:200px;
-	}
+	width:2000px;
+}
 ');
 }
 ?>
@@ -91,7 +91,7 @@ for ($iCounter = 0; $iCounter<count($face); $iCounter++){
 		"font-size":"'.($face[$iCounter]->size).'px",
 		"left": ('.(-sin($face[$iCounter]->rotation)*$face[$iCounter]->interval*1+($face[$iCounter]->rx+$face[$iCounter]->lx)/2).'-$(\'#sponsor'.$iCounter.'\').width()/2)+"px",
 		"top": ('.(cos($face[$iCounter]->rotation)*$face[$iCounter]->interval*1+($face[$iCounter]->ry+$face[$iCounter]->ly)/2).'-$(\'#sponsor'.$iCounter.'\').height()/2)+"px",
-		"width": "200px",
+		"width": "2000px",
 		"text-align":"center",
 		"-moz-transform": "rotate('.($face[$iCounter]->rotation).'rad)",
 		"-webkit-transform": "rotate('.($face[$iCounter]->rotation).'rad)",
@@ -100,9 +100,32 @@ for ($iCounter = 0; $iCounter<count($face); $iCounter++){
 	})'."\n");
 }
 if(count($face)==0 && $imageUrl!="") {
-	print('$("#result").text("顔が検出されませんでした。")');
+	print('	$("#result").text("顔が検出されませんでした。");'."\n");
+	print('	$(".picture").bind("load", function() {
+		var size = ($(".picture").width() < $(".picture").height())? $(".picture").width()*0.1 : $(".picture").width()*0.1;
+		$(".tei").css({
+			"position": "absolute",
+			"left": 2*$(this).width()/5-size/2+"px",
+			"top": $(this).height()/5+"px",
+			"font-size": size+"px"
+		});
+		$(".kyo").css({
+			"position": "absolute",
+			"left": 3*$(this).width()/5-size/2+"px",
+			"top": $(this).height()/5+"px",
+			"font-size": size+"px"
+		});
+		$(".sponsor").css({
+			"position": "absolute",
+			"width": $(".picture").width()+"px",
+			"top": 2*$(this).height()/5+"px",
+			"text-align": "center",
+			"font-size": size+"px"
+		});
+	});');
 }
 ?>
+
 });
 </script>
 <title>tekyome!</title>
@@ -127,6 +150,14 @@ for ($iCounter = 0; $iCounter< count($xml->faces->face); $iCounter++){
 	print('<div class="sponsor" id="sponsor'.$iCounter.'">'.$_GET['sponsor'][$iCounter%count($_GET['sponsor'])].'</div>');
 	print('</div>');
 	print("\n");
+}
+
+if(count($face)==0 && $imageUrl!="") {
+	print('	<div class="teikyo" id="teikyo">
+		<div class="tei">提</div>
+		<div class="kyo">供</div>
+		<div class="sponsor">butchi.jp</div>
+	</div>');
 }
 ?>
 </div>
