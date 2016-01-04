@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<!-- スポンサーの座標指定修正 -->
 <?php
+// 09 フォームに合わせてposition修正、フォームに指定したURLの画像を利用可能に、顔ラボに渡す時にURLエンコード
 class Face {
 	public $rx;
 	public $ry;
@@ -11,8 +11,12 @@ class Face {
 	public $rotation;
 }
 
-$imageUrl = 'http://butchi.jp/documents/program/tekyome/perfume.jpg';
-$xml = simplexml_load_file('https://kaolabo.com/api/detect?apikey=15ff38a942356b754466cdf3735862a7&url='.$imageUrl) or die("XMLパースエラー");
+if(isset($_GET['url']) && $_GET['url']!="") {
+	$imageUrl = $_GET['url'	];
+} else {
+	$imageUrl = 'http://ec2.images-amazon.com/images/I/51-z7BZTYrL.jpg';
+}
+$xml = simplexml_load_file('https://kaolabo.com/api/detect?apikey=15ff38a942356b754466cdf3735862a7&url='.urlencode($imageUrl)) or die("XMLパースエラー");
 for ($iCounter = 0; $iCounter< count($xml->faces->face); $iCounter++){
 	$face[$iCounter] = new Face();
 	$face[$iCounter]->rx = $xml->faces->face[$iCounter]->{'right-eye'}['x'];
@@ -29,7 +33,11 @@ for ($iCounter = 0; $iCounter< count($xml->faces->face); $iCounter++){
 <head>
 <script src="jquery-1.7.2.min.js"></script>
 <style>
-.picture { position: absolute; left: 0px; top: 0px; }
+h1 {color:#000000; background:#99ccff; padding:20px}
+h2 {color:#ffffff; background:#336699; padding:5px}
+.stage {
+	position:relative;
+}
 .teikyo {
 	position:absolute;
 	color:white;
@@ -37,7 +45,6 @@ for ($iCounter = 0; $iCounter< count($xml->faces->face); $iCounter++){
 	left:0px;
 	text-shadow:0px 0px 3px #000000;
 }
-.sponsor {  }
 <?php
 for ($iCounter = 0; $iCounter<count($face); $iCounter++){
 print('#tei'.$iCounter.' {
@@ -80,25 +87,14 @@ for ($iCounter = 0; $iCounter<count($face); $iCounter++){
 }
 ?>
 });
-
-function chkUrl(){
-	var checked = $('#urlRadio').attr('checked');
-	$('#urlText').attr('disabled', !checked);
-	$('#fileText').attr('disabled', checked);
-}
-function chkFile(){
-	var checked = $('#fileRadio').attr('checked');
-	$('#urlText').attr('disabled', checked);
-	$('#fileText').attr('disabled', !checked);
-}
 </script>
+<title>tekyome!</title>
 </head>
 <body>
-<form name="form1">
-	<label><input id="urlRadio" type="radio" name="radio1" onclick="chkUrl()" checked>URL
-	<input id="urlText" type="url" name="url" size="70" value="http://butchi.jp/" onClick="chkUrl()"><br />
-	<label><input id="fileRadio" type="radio" name="radio1" onclick="chkFile()">ファイル</label>
-	<input id="fileText" type="file" name="file" size="70" disabled>
+<h1>tekyome!</h1>
+<form name="form1" method="get" action="<?php echo $_SERVER['SCRIPT_NAME'] ?>">
+	<input id="urlText" type="url" name="url" size="70" value="<?php print($imageUrl) ?>" />
+    <input type="submit" value="生成！" />
 </form>
 <div class="stage">
 	<img class="picture" src="<?php echo($imageUrl) ?>" />
@@ -113,5 +109,7 @@ for ($iCounter = 0; $iCounter< count($xml->faces->face); $iCounter++){
 }
 ?>
 </div>
+<div>※注意 画像を保存しても提供は付きません。</div>
+<div><a href="http://butchi.jp">Home</a></div>
 </body>
 </html>
