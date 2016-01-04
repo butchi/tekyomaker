@@ -60,33 +60,46 @@ print('#tei'.$iCounter.' {
 	-o-transform: rotate('.($face[$iCounter]->rotation).'rad);
 	-ms-transform: rotate('.($face[$iCounter]->rotation).'rad);
 }
-#sponsor'.$iCounter.' {
-}
 ');
 }
 ?>
 </style>
+<script>
+$(function(){
 <?php
-print('<script>'."\n");
-print('$(function(){'."\n");
 for ($iCounter = 0; $iCounter<count($face); $iCounter++){
 	print('	$("#sponsor'.$iCounter.'").css({
 		"position": "absolute",
 		"left": ('.(-sin($face[$iCounter]->rotation)*$face[$iCounter]->interval*1+($face[$iCounter]->rx+$face[$iCounter]->lx)/2).'-$(\'#sponsor'.$iCounter.'\').width()/2)+"px",
 		"top": ('.(cos($face[$iCounter]->rotation)*$face[$iCounter]->interval*1+($face[$iCounter]->ry+$face[$iCounter]->ly)/2).'-$(\'#sponsor'.$iCounter.'\').height()/2)+"px",
-//		"margin-left": -$(\'#sponsor'.$iCounter.'\').width()/2+"px",
-//		"margin-top": -$(\'#sponsor'.$iCounter.'\').height()/2+"px",
 		"-moz-transform": "rotate('.($face[$iCounter]->rotation).'rad)",
 		"-webkit-transform": "rotate('.($face[$iCounter]->rotation).'rad)",
 		"-o-transform": "rotate('.($face[$iCounter]->rotation).'rad)",
 		"-ms-transform": "rotate('.($face[$iCounter]->rotation).'rad)"
 	})'."\n");
 }
-print('});'."\n");
-print('</script>'."\n");
 ?>
+});
+
+function chkUrl(){
+	var checked = $('#urlRadio').attr('checked');
+	$('#urlText').attr('disabled', !checked);
+	$('#fileText').attr('disabled', checked);
+}
+function chkFile(){
+	var checked = $('#fileRadio').attr('checked');
+	$('#urlText').attr('disabled', checked);
+	$('#fileText').attr('disabled', !checked);
+}
+</script>
 </head>
 <body>
+<form name="form1">
+	<label><input id="urlRadio" type="radio" name="radio1" onclick="chkUrl()" checked>URL
+	<input id="urlText" type="url" name="url" size="70" value="http://butchi.jp/" onClick="chkUrl()"><br />
+	<label><input id="fileRadio" type="radio" name="radio1" onclick="chkFile()">ファイル</label>
+	<input id="fileText" type="file" name="file" size="70" disabled>
+</form>
 <div class="stage">
 	<img class="picture" src="<?php echo($imageUrl) ?>" />
 <?php
