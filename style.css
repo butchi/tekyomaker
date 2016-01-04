@@ -1,17 +1,80 @@
 @charset "utf-8";
-h1 {
-	font-size: medium;
-	color: #ffffff;
+header {
 	background-color: #336699;
 	padding: 8px;
 }
 
-#subFooter {
+h1 {
+	display: inline;
+	font-size: medium;
+	color: #ffffff;
+}
+
+.social {
+	display: inline;
+	float: right;
+	margin: 0;
+	padding: 0;
+}
+
+.social li {
+	list-style-type: none;
+	float: left;
+	margin-right: 4px;
+}
+
+.fb-like {
+	width: 120px;
+	height: 20px;
+}
+
+.wrapper {
+	background-color: #FFFFFF;
+	margin: 0 auto;
+}
+
+.main {
+	padding: 10px;
+	float: left;
+}
+
+p {
+	margin: 0;
+}
+
+form li {
+	padding: 10px;
+}
+
+.addSponsorBtn {
+	font-size: small;
+	display: inline;
+	padding-left: 15px;
+}
+
+.sub {
+	float: right;
+	margin-top: 20px;
+	padding-right: 20px;
+}
+
+.main .submit {
+	padding-top: 15px;
+}
+
+footer {
+	position: relative;
+	clear: both;
+}
+
+.subFooter {
+	padding: 10px 0;
 	text-align: center;
 	font-size: small;
 }
 
-#footer {
+.footer {
+	padding: 3px;
 	background-color: #336699;
 	color: #ffffff;
 	text-align: center;
@@ -29,9 +92,16 @@ h1 {
 	text-shadow:0px 0px 3px #000000;
 }
 #result {
-	color:#F00;
+	padding: 20px 0;
+	color: #F00;
 }
 .attention {
+	padding-top: 10px;
+	font-size:small;
+	color:#999;
+}
+
+.serviceAttention {
 	font-size:small;
 	color:#999;
 }

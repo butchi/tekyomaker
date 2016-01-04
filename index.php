@@ -4,7 +4,7 @@
 <head>
 <script src="jquery-1.7.2.min.js"></script>
 <?php
-// 17 スポンサー拡張対応、ワイヤーフレーム対応
+// 18 ソーシャルメディア対応、URLからindex.phpを除去（相対パス）
 class Face {
 	public $rx;
 	public $ry;
@@ -19,6 +19,7 @@ if(isset($_GET['imageUrl']) && $_GET['imageUrl']!='') {
 	$imageUrl = $_GET['imageUrl'];
 } else if(isset($_GET['twitterID']) && $_GET['twitterID']!='') {
 	$imageUrl = 'http://gadgtwit.appspot.com/twicon/'.urlencode($_GET['twitterID']).'/original';
+//	$imageUrl = 'http://api.osae.me/retwipi/'.urlencode($_GET['twitterID']).'/original';
 }
 
 if($imageUrl!='') {
@@ -143,17 +144,40 @@ if(count($face)==0 && $imageUrl!="") {
 <title>提供目ーカー</title>
 </head>
 <body>
-<h1>提供目ーカー</h1>
-<p>提供目ーカーは、誰でも簡単に<a href="http://dic.nicovideo.jp/a/%3C%E6%8F%90%3E%3C%E4%BE%9B%3E" target="_blank">提供目</a>をつくることができるサービスです。<br />
-複数人が写っている写真にも対応しています。</p>
+<!-- Facebook -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<!-- /Facebook -->
 
-<form name="form1" method="get" action="<?php echo $_SERVER['SCRIPT_NAME'] ?>">
+<header>
+<h1>提供目ーカー</h1>
+<ul class="social">
+	<li><a href="http://b.hatena.ne.jp/entry/http://tekyomaker.onra.in/" class="hatena-bookmark-button" data-hatena-bookmark-title="提供目ーカー" data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script></li>
+	<li><div class="fb-like" data-href="http://tekyomaker.onra.in/" data-send="false" data-layout="button_count" data-width="120" data-show-faces="false"></div></li>
+	<li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://tekyomaker.onra.in/" data-lang="ja" data-hashtags="tekyomaker">ツイート</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></li>
+    
+</ul>
+</header>
+
+<div class="wrapper">
+<div class="main">
+<p>提供目ーカーは、誰でも簡単に<a href="http://dic.nicovideo.jp/a/%3C%E6%8F%90%3E%3C%E4%BE%9B%3E" target="_blank">提供目</a>をつくることができるサービスです。<br />
+複数人が写っている写真にも対応しています。（<a href="./?type=twitter&twitterID=t_ishin&sponsor%5B%5D=%E5%A4%A7%E9%98%AA%E9%83%BD">サンプル1</a>）（サンプル2）</p>
+
+<form name="form1" method="get" action="./">
 	<ol><li>画像を選ぶ（PNG, JPEG）</li>
 	<label><input id="urlRadio" type="radio" name="type" value="imageUrl" onclick="chkUrl()"<?php if($_GET['type']=='imageUrl' || !isset($_GET['type'])) print(' checked'); ?>>URLから生成
 	<input id="imageUrlText" type="url" name="imageUrl" size="70" value="<?php print(($_GET['imageUrl']!='')? $_GET['imageUrl'] : ''); ?>"<?php if(isset($_GET['type']) && $_GET['type']!='imageUrl') print(' disabled'); ?> placeholder="画像のURLを貼り付けてください" onclick="chkUrl()" /></label><br />
 	<label><input id="twitterRadio" type="radio" name="type" value="twitter" onclick="chkTwitter()"<? if($_GET['type']=='twitter') print(' checked'); ?> />Twitterアイコンから生成
 	<input id="twitterText" type="text" name="twitterID" size="30" value="<?php print(($_GET['twitterID']!='')? $_GET['twitterID'] : '') ?>"<? if($_GET['type']!='twitter') print(' disabled'); ?> placeholder="Twitter IDを入力してください" /></label>
-	<li>スポンサーを入力<a href="javascript:addSponsor();"><small>+スポンサーの追加（最大6社）</small></a></li>
+	<li>スポンサーを入力<a href="javascript:addSponsor();"><div class="addSponsorBtn">+スポンサーの追加（最大6社）</div></a></li>
 	<div id="sponsorsInput">
 		<div><input type="text" name="sponsor[]" <?php
 			if(isset($_GET['sponsor'])) {
@@ -169,23 +193,24 @@ if(count($face)==0 && $imageUrl!="") {
 	}
 ?>
 	</div>
-	<div><input type="submit" value="生成！" /></div>
+	<div class="submit"><input type="submit" value="生成！" /></div>
 	</ol>
 </form>
 
 <?php
-	if($imageUrl){
-		print('<div id="result"></div>
+if($imageUrl){
+	print('<a href="http://twitter.com/home/?status='.urlencode(' http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'].'?'.$_SERVER['QUERY_STRING']).urlencode(' #tekyomaker ').'">&gt;&gt;この提供目をツイートする</a>');
+	print('<div id="result"></div>
 <div class="stage">
 	<img class="picture" src="'.$imageUrl.'" />');
-		for ($iCounter = 0; $iCounter< count($xml->face); $iCounter++){
-			print('	<div class="teikyo" id="teikyo'.$iCounter.'">');
-			print('<div class="tei" id="tei'.$iCounter.'">提</div>');
-			print('<div class="kyo" id="kyo'.$iCounter.'">供</div>');
-			print('<div class="sponsor" id="sponsor'.$iCounter.'">'.$_GET['sponsor'][$iCounter%count($_GET['sponsor'])].'</div>');
-			print('</div>');
-			print("\n");
-		}
+	for ($iCounter = 0; $iCounter< count($xml->face); $iCounter++){
+		print('	<div class="teikyo" id="teikyo'.$iCounter.'">');
+		print('<div class="tei" id="tei'.$iCounter.'">提</div>');
+		print('<div class="kyo" id="kyo'.$iCounter.'">供</div>');
+		print('<div class="sponsor" id="sponsor'.$iCounter.'">'.$_GET['sponsor'][$iCounter%count($_GET['sponsor'])].'</div>');
+		print('</div>');
+		print("\n");
+	}
 
 	if(count($face)==0 && $imageUrl!="") {
 		// 顔が検出されなかったとき
@@ -198,13 +223,53 @@ if(count($face)==0 && $imageUrl!="") {
 	
 	print('</div>');
 	
-	print('<a href="http://twitter.com/home/?status='.urlencode(' http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'].'?'.$_SERVER['QUERY_STRING']).urlencode(' #tekyomaker ').'">&gt;&gt;この提供目をツイートする</a>');
 	print('<div class="attention">※注意 画像を保存しても提供は付きません。</div>');
 }
 ?>
 
-<div id="subFooter">提供目ーカーは、<a href="http://onra.in/">音羅院一族</a>と、ゴランノス・ポンサーの提供でお送りしています。</div>
-<div id="footer">Copyright 2012 音羅院一族</div>
+<div class="serviceAttention">※サービス内容は予告なく変更する場合があります。</div>
+
+<!-- /.main --></div>
+
+<div class="sub">
+<script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'search',
+  search: '#tekyomaker',
+  interval: 30000,
+  title: '#tekyomaker',
+  subject: 'みんなの提供目',
+  width: 250,
+  height: 300,
+  theme: {
+    shell: {
+      background: '#336699',
+      color: '#ffffff'
+    },
+    tweets: {
+      background: '#ffffff',
+      color: '#444444',
+      links: '#1985b5'
+    }
+  },
+  features: {
+    scrollbar: false,
+    loop: true,
+    live: true,
+    behavior: 'default'
+  }
+}).render().start();
+</script>
+<!-- /.sub --></div>
+
+<footer>
+<div class="subFooter">提供目ーカーは、<a href="http://onra.in/">音羅院一族</a>と、ゴランノス・ポンサーの提供でお送りしています。</div>
+<div class="footer">Copyright 2012 音羅院一族</div>
+</footer>
+
+<!-- /.wrapper --></div>
 
 <script>
 function addSponsor() {

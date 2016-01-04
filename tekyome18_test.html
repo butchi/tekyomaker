@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+<script src="jquery-1.7.2.min.js"></script>
+<link href="style_test.css" rel="stylesheet" type="text/css" />
+<style>
+</style>
+<title>提供目ーカー</title>
+</head>
+<body>
+<h1>提供目ーカー</h1>
+<div class="wrapper">
+<div class="main">
+<p>提供目ーカーは、誰でも簡単に<a href="http://dic.nicovideo.jp/a/%3C%E6%8F%90%3E%3C%E4%BE%9B%3E" target="_blank">提供目</a>をつくることができるサービスです。<br />
+複数人が写っている写真にも対応しています。</p>
+
+<div class="serviceAttention">※サービス内容は予告なく変更する場合があります。</div>
+
+</div>
+
+<div class="sub">
+<script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'search',
+  search: '#tekyomaker',
+  interval: 30000,
+  title: '#tekyomaker',
+  subject: 'みんなの提供目',
+  width: 250,
+  height: 300,
+  theme: {
+    shell: {
+      background: '#336699',
+      color: '#ffffff'
+    },
+    tweets: {
+      background: '#ffffff',
+      color: '#444444',
+      links: '#1985b5'
+    }
+  },
+  features: {
+    scrollbar: false,
+    loop: true,
+    live: true,
+    behavior: 'default'
+  }
+}).render().start();
+</script>
+</div>
+<footer>
+<div class="subFooter">提供目ーカーは、<a href="http://onra.in/">音羅院一族</a>と、ゴランノス・ポンサーの提供でお送りしています。</div>
+<div class="footer">Copyright 2012 音羅院一族</div>
+</footer>
+
+</div>
+</body>
+</html>
