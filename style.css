@@ -1,0 +1,37 @@
+@charset "utf-8";
+h1 {
+	font-size: medium;
+	color: #ffffff;
+	background-color: #336699;
+	padding: 8px;
+}
+
+#subFooter {
+	text-align: center;
+	font-size: small;
+}
+
+#footer {
+	background-color: #336699;
+	color: #ffffff;
+	text-align: center;
+	font-size: small;
+}
+
+.stage {
+	position:relative;
+}
+.teikyo {
+	position:absolute;
+	color:white;
+	top:0px;
+	left:0px;
+	text-shadow:0px 0px 3px #000000;
+}
+#result {
+	color:#F00;
+}
+.attention {
+	font-size:small;
+	color:#999;
+}

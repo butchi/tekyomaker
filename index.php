@@ -4,7 +4,7 @@
 <head>
 <script src="jquery-1.7.2.min.js"></script>
 <?php
-// 16 画像読み込みの例外処理
+// 17 スポンサー拡張対応、ワイヤーフレーム対応
 class Face {
 	public $rx;
 	public $ry;
@@ -41,6 +41,7 @@ if($imageUrl!='') {
 	}
 }
 
+/*
 $defaultSponsors = array('butchi.jp', 'カヤック', 'ブッチブログ');
 if(isset($_GET['sponsor'])) {
 	$sponsor[0] = ($_GET['sponsor'][0]!='')? $_GET['sponsor'][0] : $defaultSponsors[0];
@@ -49,27 +50,10 @@ if(isset($_GET['sponsor'])) {
 } else {
 	$sponsor = $defaultSponsors;
 }
+*/
 ?>
+<link href="style.css" rel="stylesheet" type="text/css" />
 <style>
-h1 {color:#000000; background:#99ccff; padding:20px}
-h2 {color:#ffffff; background:#336699; padding:5px}
-.stage {
-	position:relative;
-}
-.teikyo {
-	position:absolute;
-	color:white;
-	top:0px;
-	left:0px;
-	text-shadow:0px 0px 3px #000000;
-}
-#result {
-	color:#F00;
-}
-.attention {
-	font-size:small;
-	color:#999;
-}
 <?php
 for ($iCounter = 0; $iCounter<count($face); $iCounter++){
 	print('#tei'.$iCounter.' {
@@ -160,43 +144,74 @@ if(count($face)==0 && $imageUrl!="") {
 </head>
 <body>
 <h1>提供目ーカー</h1>
+<p>提供目ーカーは、誰でも簡単に<a href="http://dic.nicovideo.jp/a/%3C%E6%8F%90%3E%3C%E4%BE%9B%3E" target="_blank">提供目</a>をつくることができるサービスです。<br />
+複数人が写っている写真にも対応しています。</p>
+
 <form name="form1" method="get" action="<?php echo $_SERVER['SCRIPT_NAME'] ?>">
-	<label><input id="urlRadio" type="radio" name="type" value="imageUrl" onclick="chkUrl()"<?php if($_GET['type']=='imageUrl' || !isset($_GET['type'])) print(' checked'); ?>>URL
-	<input id="imageUrlText" type="url" name="imageUrl" size="70" value="<?php print(($_GET['imageUrl']!='')? $_GET['imageUrl'] : 'http://ec2.images-amazon.com/images/I/51-z7BZTYrL.jpg'); ?>"<?php if(isset($_GET['type']) && $_GET['type']!='imageUrl') print(' disabled'); ?> onClick="chkUrl()" /></label>対応画像形式: JPEG、PNG
-<br />
-	<label><input id="twitterRadio" type="radio" name="type" value="twitter" onclick="chkTwitter()"<? if($_GET['type']=='twitter') print(' checked'); ?> />Twitter ID
-	<input id="twitterText" type="text" name="twitterID" size="30" value="<?php print(($_GET['twitterID']!='')? $_GET['twitterID'] : '') ?>"<? if($_GET['type']!='twitter') print(' disabled'); ?> /></label>
-	<div><label>スポンサー1<input type="text" name="sponsor[]" value="<?php print($sponsor[0]); ?>" /></label></div>
-	<div><label>スポンサー2<input type="text" name="sponsor[]" value="<?php print($sponsor[1]); ?>" /></label></div>
-	<div><label>スポンサー3<input type="text" name="sponsor[]" value="<?php print($sponsor[2]); ?>" /></label></div>
+	<ol><li>画像を選ぶ（PNG, JPEG）</li>
+	<label><input id="urlRadio" type="radio" name="type" value="imageUrl" onclick="chkUrl()"<?php if($_GET['type']=='imageUrl' || !isset($_GET['type'])) print(' checked'); ?>>URLから生成
+	<input id="imageUrlText" type="url" name="imageUrl" size="70" value="<?php print(($_GET['imageUrl']!='')? $_GET['imageUrl'] : ''); ?>"<?php if(isset($_GET['type']) && $_GET['type']!='imageUrl') print(' disabled'); ?> placeholder="画像のURLを貼り付けてください" onclick="chkUrl()" /></label><br />
+	<label><input id="twitterRadio" type="radio" name="type" value="twitter" onclick="chkTwitter()"<? if($_GET['type']=='twitter') print(' checked'); ?> />Twitterアイコンから生成
+	<input id="twitterText" type="text" name="twitterID" size="30" value="<?php print(($_GET['twitterID']!='')? $_GET['twitterID'] : '') ?>"<? if($_GET['type']!='twitter') print(' disabled'); ?> placeholder="Twitter IDを入力してください" /></label>
+	<li>スポンサーを入力<a href="javascript:addSponsor();"><small>+スポンサーの追加（最大6社）</small></a></li>
+	<div id="sponsorsInput">
+		<div><input type="text" name="sponsor[]" <?php
+			if(isset($_GET['sponsor'])) {
+				print('value="'.$_GET['sponsor'][0].'"');
+			} else {
+				print('placeholder="例) 株式会社月極"');
+			}
+		?> /></div>
+<?php
+	// クエリーからのスポンサーの読み込み
+	for($iCounter=1; $iCounter<count($_GET['sponsor']); $iCounter++) {
+		print('		<div><input type="text" name="sponsor[]" value="'.$_GET['sponsor'][$iCounter].'" /></div>');
+	}
+?>
+	</div>
 	<div><input type="submit" value="生成！" /></div>
+	</ol>
 </form>
 
-<div id="result"></div>
-<div class="stage">
-	<img class="picture" src="<?php echo($imageUrl) ?>" />
 <?php
-for ($iCounter = 0; $iCounter< count($xml->face); $iCounter++){
-	print('	<div class="teikyo" id="teikyo'.$iCounter.'">');
-	print('<div class="tei" id="tei'.$iCounter.'">提</div>');
-	print('<div class="kyo" id="kyo'.$iCounter.'">供</div>');
-	print('<div class="sponsor" id="sponsor'.$iCounter.'">'.$sponsor[$iCounter%count($sponsor)].'</div>');
-	print('</div>');
-	print("\n");
-}
+	if($imageUrl){
+		print('<div id="result"></div>
+<div class="stage">
+	<img class="picture" src="'.$imageUrl.'" />');
+		for ($iCounter = 0; $iCounter< count($xml->face); $iCounter++){
+			print('	<div class="teikyo" id="teikyo'.$iCounter.'">');
+			print('<div class="tei" id="tei'.$iCounter.'">提</div>');
+			print('<div class="kyo" id="kyo'.$iCounter.'">供</div>');
+			print('<div class="sponsor" id="sponsor'.$iCounter.'">'.$_GET['sponsor'][$iCounter%count($_GET['sponsor'])].'</div>');
+			print('</div>');
+			print("\n");
+		}
 
-if(count($face)==0 && $imageUrl!="") {
-	print('	<div class="teikyo" id="teikyo">
+	if(count($face)==0 && $imageUrl!="") {
+		// 顔が検出されなかったとき
+		print('	<div class="teikyo" id="teikyo">
 		<div class="tei">提</div>
 		<div class="kyo">供</div>
 		<div class="sponsor">'.$_GET['sponsor'][0].'</div>
 	</div>');
+	}
+	
+	print('</div>');
+	
+	print('<a href="http://twitter.com/home/?status='.urlencode(' http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'].'?'.$_SERVER['QUERY_STRING']).urlencode(' #tekyomaker ').'">&gt;&gt;この提供目をツイートする</a>');
+	print('<div class="attention">※注意 画像を保存しても提供は付きません。</div>');
 }
 ?>
-</div>
-<?php print('<a href="http://twitter.com/home/?status='.urlencode(' http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'].'?'.$_SERVER['QUERY_STRING']).urlencode(' #tekyomaker ').'"><img src="full_logo_blue.png">Twitterでつぶやく</a>'); ?>
 
-<div class="attention">※注意 画像を保存しても提供は付きません。</div>
-<div><a href="http://butchi.jp">Home</a></div>
+<div id="subFooter">提供目ーカーは、<a href="http://onra.in/">音羅院一族</a>と、ゴランノス・ポンサーの提供でお送りしています。</div>
+<div id="footer">Copyright 2012 音羅院一族</div>
+
+<script>
+function addSponsor() {
+	if($('#sponsorsInput > div').size()<6) {
+		$('#sponsorsInput').append('	<div><input type="text" name="sponsor[]" /></div>');
+	}
+}
+</script>
 </body>
 </html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+<script src="jquery-1.7.2.min.js"></script>
+<style>
+h1 {color:#000000; background:#99ccff; padding:20px}
+h2 {color:#ffffff; background:#336699; padding:5px}
+</style>
+<title>提供目ーカー</title>
+</head>
+<body>
+<h1>提供目ーカー</h1>
+<form name="form1" method="get" action="./tekyome17_test.html">
+	<a href="javascript:addSponsor();">+スポンサーの追加（最大6社）</a>
+	<div id="sponsorsInput">
+		<div><input type="text" name="sponsor[]" placeholder="例) 株式会社月極" /></div>
+	</div>
+	<div><input type="submit" value="生成！" /></div>
+</form>
+
+<script>
+function addSponsor() {
+	if($('#sponsorsInput > div').size()<6) {
+		$('#sponsorsInput').append('	<div><input type="text" name="sponsor[]" /></div>');
+	}
+}
+</script>
+</body>
+</html>
