@@ -4,156 +4,7 @@
 <head>
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" />
-<script src="jquery-1.7.2.min.js"></script>
-<?php
-// 20 スポンサー追加・削除、ツイートボタン修正
-class Face {
-	public $rx;
-	public $ry;
-	public $lx;
-	public $ly;
-	public $interval;
-	public $size;
-	public $rotation;
-}
-
-// ログファイル書き出し
-{
-	$fp = fopen('log.txt',"a");
-	flock($fp,LOCK_EX); // 排他ロック
-	
-	fwrite($fp, date("Y/m/d G:i:s")."\t".$_SERVER["QUERY_STRING"]."\n");
-	
-	flock($fp,LOCK_UN); // ロック開放
-	fclose($fp);
-}
-
-if(isset($_GET['imageUrl']) && $_GET['imageUrl']!='') {
-	$imageUrl = $_GET['imageUrl'];
-} else if(isset($_GET['twitterID']) && $_GET['twitterID']!='') {
-//	$imageUrl = 'http://gadgtwit.appspot.com/twicon/'.urlencode($_GET['twitterID']).'/original'; // エラー500 @2012/7/10
-	$imageUrl = 'http://api.osae.me/retwipi/'.urlencode($_GET['twitterID']).'/original';
-}
-
-if($imageUrl!='') {
-	$faceUrl = 'http://detectface.com/api/detect?url='.urlencode($imageUrl).'&f=2';
-	$xml = @simplexml_load_file($faceUrl);
-	for ($iCounter = 0; $iCounter< count($xml->face); $iCounter++){
-		$face[$iCounter] = new Face();
-		$rxTmp = $xml->xpath('face[@id='.$iCounter.']/features/point[@id="PR"]/@x');
-		$ryTmp = $xml->xpath('face[@id='.$iCounter.']/features/point[@id="PR"]/@y');
-		$lxTmp = $xml->xpath('face[@id='.$iCounter.']/features/point[@id="PL"]/@x');
-		$lyTmp = $xml->xpath('face[@id='.$iCounter.']/features/point[@id="PL"]/@y');
-		$face[$iCounter]->rx = $rxTmp[0];
-		$face[$iCounter]->ry = $ryTmp[0];
-		$face[$iCounter]->lx = $lxTmp[0];
-		$face[$iCounter]->ly = $lyTmp[0];
-		$face[$iCounter]->interval = sqrt(pow($face[$iCounter]->lx-$face[$iCounter]->rx,2)+pow($face[$iCounter]->ly-$face[$iCounter]->ry,2));
-		$face[$iCounter]->size = $face[$iCounter]->interval/2;
-		$face[$iCounter]->rotation = atan2($face[$iCounter]->ly-$face[$iCounter]->ry,$face[$iCounter]->lx-$face[$iCounter]->rx);
-		$test = ($xml->face[$iCounter]->xpath('//point[@id="PR"]/@x'));
-	}
-}
-
-/*
-$defaultSponsors = array('butchi.jp', 'カヤック', 'ブッチブログ');
-if(isset($_GET['sponsor'])) {
-	$sponsor[0] = ($_GET['sponsor'][0]!='')? $_GET['sponsor'][0] : $defaultSponsors[0];
-	$sponsor[1] = ($_GET['sponsor'][1]!='')? $_GET['sponsor'][1] : $defaultSponsors[1];
-	$sponsor[2] = ($_GET['sponsor'][2]!='')? $_GET['sponsor'][2] : $defaultSponsors[2];
-} else {
-	$sponsor = $defaultSponsors;
-}
-*/
-?>
 <link href="style.css" rel="stylesheet" type="text/css" />
-<style>
-<?php
-for ($iCounter = 0; $iCounter<count($face); $iCounter++){
-	print('#tei'.$iCounter.' {
-	position: absolute;
-	left:'.($face[$iCounter]->rx-$face[$iCounter]->size/2).'px;
-	top:'.($face[$iCounter]->ry-$face[$iCounter]->size/2).'px;
-	font-size:'.($face[$iCounter]->size).'px;
-	-moz-transform: rotate('.($face[$iCounter]->rotation).'rad);
-	-webkit-transform: rotate('.($face[$iCounter]->rotation).'rad);
-	-o-transform: rotate('.($face[$iCounter]->rotation).'rad);
-	-ms-transform: rotate('.($face[$iCounter]->rotation).'rad);
-}
-#kyo'.$iCounter.' {
-	position: absolute;
-	left:'.($face[$iCounter]->lx-$face[$iCounter]->size/2).'px;
-	top:'.($face[$iCounter]->ly-$face[$iCounter]->size/2).'px;
-	font-size:'.($face[$iCounter]->size).'px;
-	-moz-transform: rotate('.($face[$iCounter]->rotation).'rad);
-	-webkit-transform: rotate('.($face[$iCounter]->rotation).'rad);
-	-o-transform: rotate('.($face[$iCounter]->rotation).'rad);
-	-ms-transform: rotate('.($face[$iCounter]->rotation).'rad);
-}
-#sponsor'.$iCounter.' {
-	font-size:'.($face[$iCounter]->size).'px;
-	width:2000px;
-}
-');
-}
-?>
-</style>
-<script>
-function chkUrl(){
-	var checked = $('#urlRadio').attr('checked');
-	$('#imageUrlText').attr('disabled', !checked);
-	$('#twitterText').attr('disabled', checked);
-}
-function chkTwitter(){
-	var checked = $('#twitterRadio').attr('checked');
-	$('#imageUrlText').attr('disabled', checked);
-	$('#twitterText').attr('disabled', !checked);
-}
-$(function(){
-<?php
-for ($iCounter = 0; $iCounter<count($face); $iCounter++){
-	print('	$("#sponsor'.$iCounter.'").css({
-		"position": "absolute",
-		"font-size":"'.($face[$iCounter]->size).'px",
-		"left": ('.(-sin($face[$iCounter]->rotation)*$face[$iCounter]->interval*1+($face[$iCounter]->rx+$face[$iCounter]->lx)/2).'-$(\'#sponsor'.$iCounter.'\').width()/2)+"px",
-		"top": ('.(cos($face[$iCounter]->rotation)*$face[$iCounter]->interval*1+($face[$iCounter]->ry+$face[$iCounter]->ly)/2).'-$(\'#sponsor'.$iCounter.'\').height()/2)+"px",
-		"width": "2000px",
-		"text-align":"center",
-		"-moz-transform": "rotate('.($face[$iCounter]->rotation).'rad)",
-		"-webkit-transform": "rotate('.($face[$iCounter]->rotation).'rad)",
-		"-o-transform": "rotate('.($face[$iCounter]->rotation).'rad)",
-		"-ms-transform": "rotate('.($face[$iCounter]->rotation).'rad)"
-	})'."\n");
-}
-if(count($face)==0 && $imageUrl!="") {
-	print('	$("#result").text("顔が検出されませんでした。");'."\n");
-	print('	$(".picture").bind("load", function() {
-		var size = ($(".picture").width() < $(".picture").height())? $(".picture").width()*0.1 : $(".picture").width()*0.1;
-		$(".tei").css({
-			"position": "absolute",
-			"left": 0.4*$(this).width()-size/2+"px",
-			"top": 0.4*$(this).height()-size/2+"px",
-			"font-size": size+"px"
-		});
-		$(".kyo").css({
-			"position": "absolute",
-			"left": 0.6*$(this).width()-size/2+"px",
-			"top": 0.4*$(this).height()-size/2+"px",
-			"font-size": size+"px"
-		});
-		$(".sponsor").css({
-			"position": "absolute",
-			"width": $(".picture").width()+"px",
-			"top": 0.6*$(this).height()-size/2+"px",
-			"text-align": "center",
-			"font-size": size+"px"
-		});
-	});');
-}
-?>
-
-});
-</script>
 <title>提供目ーカー</title>
 <!-- Google Analytics -->
 <script type="text/javascript">
@@ -202,57 +53,17 @@ if(count($face)==0 && $imageUrl!="") {
 
 <form name="form1" method="get" action="./">
 	<ol><li>画像を選ぶ（PNG, JPEG）</li>
-	<label><input id="urlRadio" type="radio" name="type" value="imageUrl" onclick="chkUrl()"<?php if($_GET['type']=='imageUrl' || !isset($_GET['type'])) print(' checked'); ?>>URLから生成
-	<input id="imageUrlText" type="url" name="imageUrl" size="70" value="<?php print(($_GET['imageUrl']!='')? $_GET['imageUrl'] : ''); ?>"<?php if(isset($_GET['type']) && $_GET['type']!='imageUrl') print(' disabled'); ?> placeholder="画像のURLを貼り付けてください" onclick="chkUrl()" /></label><br />
+	<label><input id="urlRadio" type="radio" name="type" value="imageUrl" onclick="chkUrl()">URLから生成
+	<input id="imageUrlText" type="url" name="imageUrl" size="70" value="" placeholder="画像のURLを貼り付けてください" onclick="chkUrl()" /></label><br />
 	<label><input id="twitterRadio" type="radio" name="type" value="twitter" onclick="chkTwitter()"<? if($_GET['type']=='twitter') print(' checked'); ?> />Twitterアイコンから生成
 	<input id="twitterText" type="text" name="twitterID" size="30" value="<?php print(($_GET['twitterID']!='')? $_GET['twitterID'] : '') ?>"<? if($_GET['type']!='twitter') print(' disabled'); ?> placeholder="Twitter IDを入力してください" /></label>
 	<li>スポンサーを入力<a href="javascript:addSponsor();"><div class="addSponsorBtn">+スポンサーの追加（最大6社）</div></a></li>
 	<div id="sponsorsInput">
-<?php
-	// クエリーからのスポンサーの読み込み
-	for($iCounter=0; $iCounter<count($_GET['sponsor']); $iCounter++) {
-		print('		<div><input type="text" name="sponsor[]" value="'.$_GET['sponsor'][$iCounter].'" placeholder="例) 株式会社月極" /><span class="deleteSponsorBtn" onClick="deleteSponsor(this);">×</span></div>');
-	}
-	if(!isset($_GET['sponsor'])) {
-		print('		<div><input type="text" name="sponsor[]" placeholder="例) 株式会社月極" /><span class="deleteSponsorBtn" onClick="deleteSponsor(this);">×</span></div>');
-	}
-?>
+	  <div><input type="text" name="sponsor[]" placeholder="例) 株式会社月極" /><span class="deleteSponsorBtn" onClick="deleteSponsor(this);">×</span></div>
 	</div>
 	<div class="submit"><input type="submit" value="生成！" /></div>
 	</ol>
 </form>
-
-<?php
-if($imageUrl){
-	print('<div class="tweetBtn"><img src="twitter-bird.png" /><a href="http://twitter.com/home/?status='.urlencode(' http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'].'?'.$_SERVER['QUERY_STRING']).urlencode(' #tekyomaker ').'">&gt;&gt;この提供目をツイートする</a></div>');
-	print('<div id="result"></div>
-<div class="stage">
-	<img class="picture" src="'.$imageUrl.'" />');
-	for ($iCounter = 0; $iCounter< count($xml->face); $iCounter++){
-		print('	<div class="teikyo" id="teikyo'.$iCounter.'">');
-		print('<div class="tei" id="tei'.$iCounter.'">提</div>');
-		print('<div class="kyo" id="kyo'.$iCounter.'">供</div>');
-		if(isset($_GET['sponsor'])) {
-			print('<div class="sponsor" id="sponsor'.$iCounter.'">'.$_GET['sponsor'][$iCounter%count($_GET['sponsor'])].'</div>');
-		}
-		print('</div>');
-		print("\n");
-	}
-
-	if(count($face)==0 && $imageUrl!="") {
-		// 顔が検出されなかったとき
-		print('	<div class="teikyo" id="teikyo">
-		<div class="tei">提</div>
-		<div class="kyo">供</div>
-		<div class="sponsor">'.$_GET['sponsor'][0].'</div>
-	</div>');
-	}
-	
-	print('</div>');
-	
-	print('<div class="attention">※注意 画像を保存しても提供は付きません。</div>');
-}
-?>
 
 <div class="serviceAttention">※サービス内容は予告なく変更する場合があります。</div>
 
@@ -293,12 +104,15 @@ new TWTR.Widget({
 
 <footer>
 <div class="subFooter">提供目ーカーは、<a href="http://onra.in/">音羅院一族</a>と、ゴランノス・ポンサーの提供でお送りしています。</div>
-<div class="footer">Copyright 2012 音羅院一族</div>
+<div class="footer">Copyright 2012 - 2016 音羅院一族</div>
 </footer>
 
 <!-- /.wrapper --></div>
 
+<script src="js/lib/jquery.min.js"></script>
+<script src="js/lib/FCClientJS.js"></script>
 <script>
+'use strict';
 function addSponsor() {
 	if($('#sponsorsInput > div').size()<6) {
 		$('#sponsorsInput').append('	<div><input type="text" name="sponsor[]" placeholder="例) 株式会社月極" /><span class="deleteSponsorBtn" onClick="deleteSponsor(this);">×</span></div>');
@@ -308,6 +122,122 @@ function addSponsor() {
 function deleteSponsor(elem) {
 	elem.parentNode.parentNode.removeChild(elem.parentNode);
 }
+
+var imageUrl = "http://news.walkerplus.com/2011/0917/2/20110915171944_00_400.jpg";
+
+var client = new FCClientJS('', '');
+var options = new Object();
+// options.detect_all_feature_points = true;
+client.facesDetect(imageUrl, null, options, callback)
+
+function callback(data) {
+  console.log(data);
+
+  $(function(){
+    data.photos.forEach((photo) => {
+      $('.main').append(`<div id="result"></div>
+<div class="stage">
+<img class="picture" src="${imageUrl}" />
+</div><div class="attention">※注意 画像を保存しても提供は付きません。</div>`);
+
+      var width = photo.width;
+      var height = photo.height;
+
+      var faceArr = photo.tags;
+      faceArr.forEach((tag) => {
+        var $teikyo = $('<div></div>')
+        .addClass('teikyo');
+        var $tei = $('<div>提</div>')
+        .addClass('tei');
+        var $kyo = $('<div>供</div>')
+        .addClass('kyo');
+        var $sponsor = $('<div>カヤック</div>')
+        .addClass('sponsor');
+        $teikyo.append($tei, $kyo, $sponsor);
+
+        var lx = tag.eye_left.x * width / 100;
+        var ly = tag.eye_left.y * height / 100;
+        var rx = tag.eye_right.x * width / 100;
+        var ry = tag.eye_right.y * height /100;
+        var interval = Math.sqrt(Math.pow(lx - rx, 2)+Math.pow(ly - ry, 2));
+        var size = interval / 2;
+        var rotation = Math.atan2(ly - ry, lx - rx);
+
+        $tei.css({
+          position: 'absolute',
+          left: rx - size / 2,
+          top: ry - size / 2,
+          'font-size': size,
+          transform: `rotate(${rotation}rad)`,
+        });
+
+        $kyo.css({
+          position: 'absolute',
+          left: lx - size / 2,
+          top: ly - size / 2,
+          'font-size': size,
+          transform: `rotate(${rotation}rad)`,
+        });
+
+        $sponsor.css({
+          position: 'absolute',
+          width: '100px',
+          top: 0.6 * $(this).height() - size / 2 + "px",
+          'text-align': 'center',
+          'font-size': size + 'px'
+        });
+
+        $('.main').find('.stage').append($teikyo);
+
+        // if(count($face)==0 && $imageUrl!="") {
+        //   // 顔が検出されなかったとき
+        //   print(' <div class="teikyo" id="teikyo">
+        //   <div class="tei">提</div>
+        //   <div class="kyo">供</div>
+        //   <div class="sponsor">'.$_GET['sponsor'][0].'</div>
+        // </div>');
+        // }
+      });
+
+      if(faceArr.length === 0) {
+        $("#result").text("顔が検出されませんでした。");
+        $(".picture").bind("load", function() {
+          var size = ($(".picture").width() < $(".picture").height())? $(".picture").width()*0.1 : $(".picture").width()*0.1;
+          $(".tei").css({
+            "position": "absolute",
+            "left": 0.4*$(this).width()-size/2+"px",
+            "top": 0.4*$(this).height()-size/2+"px",
+            "font-size": size+"px"
+          });
+          $(".kyo").css({
+            "position": "absolute",
+            "left": 0.6*$(this).width()-size/2+"px",
+            "top": 0.4*$(this).height()-size/2+"px",
+            "font-size": size+"px"
+          });
+          $(".sponsor").css({
+            "position": "absolute",
+            "width": $(".picture").width()+"px",
+            "top": 0.6*$(this).height()-size/2+"px",
+            "text-align": "center",
+            "font-size": size+"px"
+          });
+        });
+      }
+    });
+  });
+}
+function chkUrl(){
+  var checked = $('#urlRadio').attr('checked');
+  $('#imageUrlText').attr('disabled', !checked);
+  $('#twitterText').attr('disabled', checked);
+}
+function chkTwitter(){
+  var checked = $('#twitterRadio').attr('checked');
+  $('#imageUrlText').attr('disabled', checked);
+  $('#twitterText').attr('disabled', !checked);
+}
+
 </script>
 </body>
 </html>
