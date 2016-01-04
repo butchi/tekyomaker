@@ -4,7 +4,7 @@
 <head>
 <script src="jquery-1.7.2.min.js"></script>
 <?php
-// 14 Twitterアイコン対応
+// 15 Twitterにつぶやく機能追加、f=1からf=2に変更（目が検出されない場合がある問題解消）
 class Face {
 	public $rx;
 	public $ry;
@@ -18,11 +18,11 @@ class Face {
 if(isset($_GET['imageUrl']) && $_GET['imageUrl']!='') {
 	$imageUrl = $_GET['imageUrl'];
 } else if(isset($_GET['twitterID']) && $_GET['twitterID']!='') {
-	$imageUrl = 'http://gadgtwit.appspot.com/twicon/'.$_GET['twitterID'].'/original';
+	$imageUrl = 'http://gadgtwit.appspot.com/twicon/'.urlencode($_GET['twitterID']).'/original';
 }
 
 if($imageUrl!='') {
-	$xml = simplexml_load_file('http://detectface.com/api/detect?url='.urlencode($imageUrl).'&f=1') or die("XMLパースエラー");
+	$xml = simplexml_load_file('http://detectface.com/api/detect?url='.urlencode($imageUrl).'&f=2') or die("XMLパースエラー");
 	for ($iCounter = 0; $iCounter< count($xml->face); $iCounter++){
 		$face[$iCounter] = new Face();
 		$rxTmp = $xml->xpath('face[@id='.$iCounter.']/features/point[@id="PR"]/@x');
@@ -161,7 +161,7 @@ if(count($face)==0 && $imageUrl!="") {
 <h1>提供目ーカー</h1>
 <form name="form1" method="get" action="<?php echo $_SERVER['SCRIPT_NAME'] ?>">
 	<label><input id="urlRadio" type="radio" name="type" value="imageUrl" onclick="chkUrl()"<?php if($_GET['type']=='imageUrl' || !isset($_GET['type'])) print(' checked'); ?>>URL
-	<input id="imageUrlText" type="url" name="imageUrl" size="70" value="<?php print(($_GET['imageUrl']!='')? $_GET['imageUrl'] : 'http://ec2.images-amazon.com/images/I/51-z7BZTYrL.jpg'); ?>"<?php if(!isset($_GET['imageUrl'])) print(' disabled'); ?> onClick="chkUrl()" /></label><br />
+	<input id="imageUrlText" type="url" name="imageUrl" size="70" value="<?php print(($_GET['imageUrl']!='')? $_GET['imageUrl'] : 'http://ec2.images-amazon.com/images/I/51-z7BZTYrL.jpg'); ?>"<?php if(isset($_GET['type']) && $_GET['type']!='imageUrl') print(' disabled'); ?> onClick="chkUrl()" /></label><br />
 	<label><input id="twitterRadio" type="radio" name="type" value="twitter" onclick="chkTwitter()"<? if($_GET['type']=='twitter') print(' checked'); ?> />Twitter ID
 	<input id="twitterText" type="text" name="twitterID" size="30" value="<?php print(($_GET['twitterID']!='')? $_GET['twitterID'] : '') ?>"<? if($_GET['type']!='twitter') print(' disabled'); ?> /></label>
 	<div><label>スポンサー1<input type="text" name="sponsor[]" value="<?php print($sponsor[0]); ?>" /></label></div>
@@ -192,6 +192,8 @@ if(count($face)==0 && $imageUrl!="") {
 }
 ?>
 </div>
+<?php print('<a href="http://twitter.com/home/?status='.urlencode(' http://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'].'?'.$_SERVER['QUERY_STRING']).urlencode(' #tekyomaker ').'"><img src="full_logo_blue.png">Twitterでつぶやく</a>'); ?>
+
 <div class="attention">※注意 画像を保存しても提供は付きません。</div>
 <div><a href="http://butchi.jp">Home</a></div>
 </body>
