@@ -1,58 +1,31 @@
-<!doctype html>
-<!-- 顔が検出されなかった時の提供 -->
+<!DOCTYPE html>
 <html>
-<head>
 <meta charset="utf-8">
+<head>
 <script src="jquery-1.7.2.min.js"></script>
-<style>
-.stage {
-	position:relative;
-}
-.teikyo {
-	position:absolute;
-	color:white;
-	top:0px;
-	left:0px;
-	text-shadow:0px 0px 3px #000000;
-}
-</style>
+<title>提供目ーカー</title>
 <script>
-$(function(){
-	$('.picture').bind('load', function() {
-		var size = ($('.picture').width() < $('.picture').height())? $('.picture').width()*0.1 : $('.picture').width()*0.1;
-		$('.tei').css({
-			"position": "absolute",
-			"left": 2*$(this).width()/5-size/2+"px",
-			"top": $(this).height()/5+"px",
-			"font-size": size+"px"
-		});
-		$('.kyo').css({
-			"position": "absolute",
-			"left": 3*$(this).width()/5-size/2+"px",
-			"top": $(this).height()/5+"px",
-			"font-size": size+"px"
-		});
-		$('.sponsor').css({
-			"position": "absolute",
-			"width": $('.picture').width()+"px",
-			"top": 2*$(this).height()/5+"px",
-			"text-align": "center",
-			"font-size": size
-		});
-	});
-});
+function chkUrl(){
+	var checked = $('#urlRadio').attr('checked');
+	$('#imageUrlText').attr('disabled', !checked);
+	$('#twitterText').attr('disabled', checked);
+}
+function chkTwitter(){
+	var checked = $('#twitterRadio').attr('checked');
+	$('#imageUrlText').attr('disabled', checked);
+	$('#twitterText').attr('disabled', !checked);
+}
 </script>
 </head>
-
 <body>
-
-<div class="stage">
-	<img class="picture" src="perfume.jpg" />
-	<div class="teikyo" id="teikyo">
-		<div class="tei">提</div>
-		<div class="kyo">供</div>
-		<div class="sponsor">butchi.jp</div>
-	</div>
-
+<h1>提供目ーカー</h1>
+<form name="form1" method="get" action="./tekyome14_test.html">
+	<label><input id="urlRadio" type="radio" name="type" value="url" onclick="chkUrl()" checked>URL
+	<input id="imageUrlText" type="url" name="imageUrl" size="70" value="http://butchi.jp/" onClick="chkUrl()"><br /></label>
+	<label><input id="twitterRadio" type="radio" name="type" value="twitter" onclick="chkTwitter()">Twitter ID
+	<input id="twitterText" type="text" name="twitterID" size="30" value="butchi_y" disabled></label>
+    <br />
+	<input type="submit" value="生成！" />
+</form>
 </body>
 </html>

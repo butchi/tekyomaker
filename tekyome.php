@@ -1,6 +1,10 @@
 <!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+<script src="jquery-1.7.2.min.js"></script>
 <?php
-// 13 顔認識APIをdetectFace();に変更、デフォルト提供の位置修正、デフォルトのスポンサー表示をGETのものに合わせる
+// 14 Twitterアイコン対応
 class Face {
 	public $rx;
 	public $ry;
@@ -11,8 +15,13 @@ class Face {
 	public $rotation;
 }
 
-if(isset($_GET['url']) && $_GET['url']!="") {
-	$imageUrl = $_GET['url'	];
+if(isset($_GET['imageUrl']) && $_GET['imageUrl']!='') {
+	$imageUrl = $_GET['imageUrl'];
+} else if(isset($_GET['twitterID']) && $_GET['twitterID']!='') {
+	$imageUrl = 'http://gadgtwit.appspot.com/twicon/'.$_GET['twitterID'].'/original';
+}
+
+if($imageUrl!='') {
 	$xml = simplexml_load_file('http://detectface.com/api/detect?url='.urlencode($imageUrl).'&f=1') or die("XMLパースエラー");
 	for ($iCounter = 0; $iCounter< count($xml->face); $iCounter++){
 		$face[$iCounter] = new Face();
@@ -29,8 +38,6 @@ if(isset($_GET['url']) && $_GET['url']!="") {
 		$face[$iCounter]->rotation = atan2($face[$iCounter]->ly-$face[$iCounter]->ry,$face[$iCounter]->lx-$face[$iCounter]->rx);
 		$test = ($xml->face[$iCounter]->xpath('//point[@id="PR"]/@x'));
 	}
-} else {
-	$imageUrl = '';
 }
 
 $defaultSponsors = array('butchi.jp', 'カヤック', 'ブッチブログ');
@@ -42,10 +49,6 @@ if(isset($_GET['sponsor'])) {
 	$sponsor = $defaultSponsors;
 }
 ?>
-<html>
-<meta charset="utf-8">
-<head>
-<script src="jquery-1.7.2.min.js"></script>
 <style>
 h1 {color:#000000; background:#99ccff; padding:20px}
 h2 {color:#ffffff; background:#336699; padding:5px}
@@ -97,6 +100,16 @@ for ($iCounter = 0; $iCounter<count($face); $iCounter++){
 ?>
 </style>
 <script>
+function chkUrl(){
+	var checked = $('#urlRadio').attr('checked');
+	$('#imageUrlText').attr('disabled', !checked);
+	$('#twitterText').attr('disabled', checked);
+}
+function chkTwitter(){
+	var checked = $('#twitterRadio').attr('checked');
+	$('#imageUrlText').attr('disabled', checked);
+	$('#twitterText').attr('disabled', !checked);
+}
 $(function(){
 <?php
 for ($iCounter = 0; $iCounter<count($face); $iCounter++){
@@ -147,12 +160,16 @@ if(count($face)==0 && $imageUrl!="") {
 <body>
 <h1>提供目ーカー</h1>
 <form name="form1" method="get" action="<?php echo $_SERVER['SCRIPT_NAME'] ?>">
-	<input id="urlText" type="url" name="url" size="70" value="<?php print(($imageUrl!="")? $imageUrl : 'http://ec2.images-amazon.com/images/I/51-z7BZTYrL.jpg') ?>" />
-	<input type="submit" value="生成！" />
+	<label><input id="urlRadio" type="radio" name="type" value="imageUrl" onclick="chkUrl()"<?php if($_GET['type']=='imageUrl' || !isset($_GET['type'])) print(' checked'); ?>>URL
+	<input id="imageUrlText" type="url" name="imageUrl" size="70" value="<?php print(($_GET['imageUrl']!='')? $_GET['imageUrl'] : 'http://ec2.images-amazon.com/images/I/51-z7BZTYrL.jpg'); ?>"<?php if(!isset($_GET['imageUrl'])) print(' disabled'); ?> onClick="chkUrl()" /></label><br />
+	<label><input id="twitterRadio" type="radio" name="type" value="twitter" onclick="chkTwitter()"<? if($_GET['type']=='twitter') print(' checked'); ?> />Twitter ID
+	<input id="twitterText" type="text" name="twitterID" size="30" value="<?php print(($_GET['twitterID']!='')? $_GET['twitterID'] : '') ?>"<? if($_GET['type']!='twitter') print(' disabled'); ?> /></label>
 	<div><label>スポンサー1<input type="text" name="sponsor[]" value="<?php print($sponsor[0]); ?>" /></label></div>
 	<div><label>スポンサー2<input type="text" name="sponsor[]" value="<?php print($sponsor[1]); ?>" /></label></div>
 	<div><label>スポンサー3<input type="text" name="sponsor[]" value="<?php print($sponsor[2]); ?>" /></label></div>
+	<div><input type="submit" value="生成！" /></div>
 </form>
+
 <div id="result"></div>
 <div class="stage">
 	<img class="picture" src="<?php echo($imageUrl) ?>" />
