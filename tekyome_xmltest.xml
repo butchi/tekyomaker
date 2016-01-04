@@ -1,0 +1,177 @@
+<?xml version='1.0'?>
+<faces>
+  <face id='0'>
+    <bounds x='67' y='22' width='72' height='72'/>
+    <right-eye x='92' y='47'/>
+    <left-eye x='117' y='47'/>
+    <features s-avg='0.71' s-min='0.40' s-max='0.90'>
+      <point id='PR' x='92' y='47' s='0.65'/>
+      <point id='PL' x='117' y='47' s='0.82'/>
+      <point id='BR2' x='98' y='38' s='0.59'/>
+      <point id='BL2' x='111' y='37' s='0.44'/>
+      <point id='N1' x='103' y='47' s='0.66'/>
+      <point id='N5' x='103' y='65' s='0.43'/>
+      <point id='M1' x='104' y='78' s='0.83'/>
+      <point id='M5' x='104' y='84' s='0.69'/>
+      <point id='M3' x='92' y='80' s='0.69'/>
+      <point id='M7' x='112' y='78' s='0.88'/>
+      <point id='EL4' x='121' y='48' s='0.88'/>
+      <point id='EL1' x='110' y='48' s='0.79'/>
+      <point id='ER1' x='97' y='48' s='0.73'/>
+      <point id='ER4' x='86' y='47' s='0.60'/>
+      <point id='M2' x='100' y='77' s='0.75'/>
+      <point id='M8' x='106' y='77' s='0.88'/>
+      <point id='M4' x='98' y='84' s='0.63'/>
+      <point id='M6' x='108' y='82' s='0.81'/>
+      <point id='BR3' x='91' y='35' s='0.60'/>
+      <point id='BL3' x='115' y='35' s='0.51'/>
+      <point id='N2' x='95' y='69' s='0.40'/>
+      <point id='N4' x='109' y='66' s='0.76'/>
+      <point id='F1' x='103' y='14' s='0.56'/>
+      <point id='F2' x='84' y='22' s='0.85'/>
+      <point id='F10' x='122' y='24' s='0.56'/>
+      <point id='ER2' x='94' y='45' s='0.71'/>
+      <point id='ER3' x='88' y='45' s='0.62'/>
+      <point id='ER5' x='89' y='49' s='0.61'/>
+      <point id='ER6' x='95' y='49' s='0.71'/>
+      <point id='EL2' x='114' y='46' s='0.79'/>
+      <point id='EL3' x='119' y='46' s='0.81'/>
+      <point id='EL5' x='119' y='49' s='0.86'/>
+      <point id='EL6' x='114' y='49' s='0.79'/>
+      <point id='BR1' x='97' y='39' s='0.63'/>
+      <point id='BR4' x='87' y='35' s='0.80'/>
+      <point id='BR5' x='85' y='39' s='0.83'/>
+      <point id='BR6' x='89' y='37' s='0.75'/>
+      <point id='BL1' x='111' y='38' s='0.61'/>
+      <point id='BL4' x='120' y='36' s='0.59'/>
+      <point id='BL5' x='124' y='40' s='0.75'/>
+      <point id='BL6' x='116' y='36' s='0.60'/>
+      <point id='N3' x='103' y='71' s='0.76'/>
+      <point id='M9' x='105' y='80' s='0.84'/>
+      <point id='F3' x='80' y='46' s='0.79'/>
+      <point id='F9' x='130' y='48' s='0.90'/>
+      <point id='F4' x='81' y='64' s='0.85'/>
+      <point id='F8' x='130' y='66' s='0.85'/>
+      <point id='F6' x='105' y='101' s='0.62'/>
+      <point id='F5' x='81' y='86' s='0.45'/>
+      <point id='F7' x='126' y='83' s='0.81'/>
+    </features>
+  </face>
+  <face id='1'>
+    <bounds x='184' y='301' width='58' height='58'/>
+  </face>
+  <face id='2'>
+    <bounds x='208' y='13' width='81' height='81'/>
+    <right-eye x='232' y='45'/>
+    <left-eye x='267' y='41'/>
+    <features s-avg='0.79' s-min='0.51' s-max='0.95'>
+      <point id='PR' x='234' y='44' s='0.89'/>
+      <point id='PL' x='267' y='41' s='0.82'/>
+      <point id='BR2' x='243' y='35' s='0.66'/>
+      <point id='BL2' x='257' y='31' s='0.65'/>
+      <point id='N1' x='250' y='41' s='0.78'/>
+      <point id='N5' x='253' y='62' s='0.84'/>
+      <point id='M1' x='255' y='76' s='0.79'/>
+      <point id='M5' x='256' y='83' s='0.81'/>
+      <point id='M3' x='241' y='78' s='0.80'/>
+      <point id='M7' x='266' y='75' s='0.86'/>
+      <point id='EL4' x='275' y='42' s='0.89'/>
+      <point id='EL1' x='261' y='44' s='0.75'/>
+      <point id='ER1' x='241' y='45' s='0.88'/>
+      <point id='ER4' x='227' y='46' s='0.87'/>
+      <point id='M2' x='249' y='74' s='0.86'/>
+      <point id='M8' x='258' y='74' s='0.84'/>
+      <point id='M4' x='248' y='82' s='0.80'/>
+      <point id='M6' x='261' y='80' s='0.83'/>
+      <point id='BR3' x='234' y='30' s='0.71'/>
+      <point id='BL3' x='266' y='28' s='0.66'/>
+      <point id='N2' x='243' y='65' s='0.80'/>
+      <point id='N4' x='262' y='62' s='0.80'/>
+      <point id='F1' x='242' y='5' s='0.73'/>
+      <point id='F2' x='216' y='14' s='0.69'/>
+      <point id='F10' x='273' y='12' s='0.69'/>
+      <point id='ER2' x='236' y='42' s='0.91'/>
+      <point id='ER3' x='230' y='42' s='0.89'/>
+      <point id='ER5' x='231' y='47' s='0.90'/>
+      <point id='ER6' x='238' y='47' s='0.92'/>
+      <point id='EL2' x='264' y='39' s='0.79'/>
+      <point id='EL3' x='271' y='38' s='0.84'/>
+      <point id='EL5' x='271' y='43' s='0.84'/>
+      <point id='EL6' x='265' y='44' s='0.82'/>
+      <point id='BR1' x='242' y='35' s='0.77'/>
+      <point id='BR4' x='225' y='31' s='0.69'/>
+      <point id='BR5' x='220' y='37' s='0.70'/>
+      <point id='BR6' x='231' y='33' s='0.74'/>
+      <point id='BL1' x='259' y='34' s='0.69'/>
+      <point id='BL4' x='272' y='29' s='0.77'/>
+      <point id='BL5' x='278' y='28' s='0.84'/>
+      <point id='BL6' x='268' y='31' s='0.73'/>
+      <point id='N3' x='254' y='67' s='0.89'/>
+      <point id='M9' x='254' y='78' s='0.84'/>
+      <point id='F3' x='215' y='47' s='0.70'/>
+      <point id='F9' x='284' y='40' s='0.93'/>
+      <point id='F4' x='220' y='68' s='0.79'/>
+      <point id='F8' x='285' y='61' s='0.95'/>
+      <point id='F6' x='257' y='102' s='0.51'/>
+      <point id='F5' x='224' y='86' s='0.60'/>
+      <point id='F7' x='280' y='80' s='0.93'/>
+    </features>
+  </face>
+  <face id='3'>
+    <bounds x='354' y='10' width='81' height='81'/>
+    <right-eye x='379' y='38'/>
+    <left-eye x='411' y='42'/>
+    <features s-avg='0.78' s-min='0.42' s-max='0.94'>
+      <point id='PR' x='379' y='38' s='0.70'/>
+      <point id='PL' x='410' y='41' s='0.92'/>
+      <point id='BR2' x='388' y='26' s='0.45'/>
+      <point id='BL2' x='403' y='29' s='0.86'/>
+      <point id='N1' x='395' y='41' s='0.78'/>
+      <point id='N5' x='392' y='58' s='0.87'/>
+      <point id='M1' x='390' y='70' s='0.94'/>
+      <point id='M5' x='388' y='77' s='0.94'/>
+      <point id='M3' x='378' y='71' s='0.90'/>
+      <point id='M7' x='401' y='74' s='0.88'/>
+      <point id='EL4' x='417' y='44' s='0.93'/>
+      <point id='EL1' x='404' y='42' s='0.92'/>
+      <point id='ER1' x='384' y='41' s='0.76'/>
+      <point id='ER4' x='369' y='39' s='0.55'/>
+      <point id='M2' x='386' y='69' s='0.92'/>
+      <point id='M8' x='394' y='70' s='0.92'/>
+      <point id='M4' x='383' y='75' s='0.90'/>
+      <point id='M6' x='396' y='77' s='0.90'/>
+      <point id='BR3' x='380' y='21' s='0.48'/>
+      <point id='BL3' x='411' y='28' s='0.83'/>
+      <point id='N2' x='382' y='59' s='0.86'/>
+      <point id='N4' x='401' y='61' s='0.88'/>
+      <point id='F1' x='400' y='-6' s='0.67'/>
+      <point id='F2' x='369' y='7' s='0.59'/>
+      <point id='F10' x='426' y='16' s='0.79'/>
+      <point id='ER2' x='382' y='36' s='0.70'/>
+      <point id='ER3' x='374' y='35' s='0.62'/>
+      <point id='ER5' x='375' y='40' s='0.64'/>
+      <point id='ER6' x='380' y='41' s='0.75'/>
+      <point id='EL2' x='408' y='39' s='0.93'/>
+      <point id='EL3' x='414' y='40' s='0.93'/>
+      <point id='EL5' x='413' y='45' s='0.93'/>
+      <point id='EL6' x='409' y='44' s='0.93'/>
+      <point id='BR1' x='386' y='28' s='0.53'/>
+      <point id='BR4' x='371' y='21' s='0.50'/>
+      <point id='BR5' x='364' y='25' s='0.61'/>
+      <point id='BR6' x='374' y='24' s='0.42'/>
+      <point id='BL1' x='403' y='33' s='0.84'/>
+      <point id='BL4' x='417' y='30' s='0.89'/>
+      <point id='BL5' x='423' y='33' s='0.91'/>
+      <point id='BL6' x='415' y='31' s='0.89'/>
+      <point id='N3' x='391' y='63' s='0.91'/>
+      <point id='M9' x='389' y='73' s='0.92'/>
+      <point id='F3' x='356' y='35' s='0.45'/>
+      <point id='F9' x='429' y='45' s='0.92'/>
+      <point id='F4' x='359' y='58' s='0.56'/>
+      <point id='F8' x='424' y='69' s='0.76'/>
+      <point id='F6' x='386' y='93' s='0.88'/>
+      <point id='F5' x='361' y='75' s='0.80'/>
+      <point id='F7' x='417' y='83' s='0.73'/>
+    </features>
+  </face>
+</faces>

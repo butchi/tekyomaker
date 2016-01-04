@@ -1,0 +1,38 @@
+<html>
+<meta charset="utf-8">
+<head>
+<script src="jquery-1.7.2.min.js"></script>
+<script>
+$(function() {
+	$.ajax({
+		type: "GET",
+		url: "http://detectface.com/api/detect?url=http%3A%2F%2Fec2.images-amazon.com%2Fimages%2FI%2F51-z7BZTYrL._SS500_.jpg&m=0",
+		success: function(msg){ alert( "Data Saved: " + msg );}
+	})
+$('#stage').prepend('<img id="pic" class="picture" src="http://ec2.images-amazon.com/images/I/51-z7BZTYrL._SS500_.jpg" />');
+});
+</script>
+<style>
+.picture { position: absolute; left: 0px; top: 0px; }
+.teikyo { position: absolute; color: white; text-shadow: 0px 0px 3px #000000; font-size: <?php echo($size) ?>px;
+ -moz-transform: rotate(<?php echo($rotation) ?>rad);
+ -webkit-transform: rotate(<?php echo($rotation) ?>rad);
+ -o-transform: rotate(<?php echo($rotation) ?>rad);
+ -ms-transform: rotate(<?php echo($rotation) ?>rad); }
+.sponsor { left: <?php echo(($rx+$lx)/2-50) ?>px; top: <?php echo(($ry+$ly)/2+$interval) ?>px;}
+</style>
+</head>
+<body>
+<div id="result"></div>
+<div id="stage">
+  <div class="teikyo tei">提</div>
+  <div class="teikyo kyo">供</div>
+  <div class="teikyo sponsor">butchi.jp</div>
+</div>
+<script>
+$(".tei").css({ left: "<?php echo($rx-$size/2) ?>px", top: "<?php echo($ry-$size/2) ?>px" });
+$(".kyo").css({ left: "<?php echo($lx-$size/2) ?>px", top: "<?php echo($ly-$size/2) ?>px" });
+$(".sponsor").css("left",<?php echo($rx+$interval/2) ?>-$(".sponsor").width()/2);
+</script>
+</body>
+</html>
