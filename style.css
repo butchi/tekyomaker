@@ -52,6 +52,25 @@ form li {
 	padding-left: 15px;
 }
 
+.deleteSponsorBtn {
+	color: #CCC;
+	cursor: pointer;
+}
+
+.deleteSponsorBtn:hover {
+	color: #000;
+}
+
+.tweetBtn {
+	font-size: large;
+	font-weight: bold;
+}
+
+.tweetBtn img {
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
 .sub {
 	float: right;
 	margin-top: 20px;
