@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-// 12 大きい画像で中央に揃わなかったのでwidthを広めに設定、顔が検出されなかったときのデフォルト提供を追加
+// 13 顔認識APIをdetectFace();に変更、デフォルト提供の位置修正、デフォルトのスポンサー表示をGETのものに合わせる
 class Face {
 	public $rx;
 	public $ry;
@@ -13,19 +13,33 @@ class Face {
 
 if(isset($_GET['url']) && $_GET['url']!="") {
 	$imageUrl = $_GET['url'	];
-	$xml = simplexml_load_file('https://kaolabo.com/api/detect?apikey=15ff38a942356b754466cdf3735862a7&url='.urlencode($imageUrl)) or die("XMLパースエラー");
-	for ($iCounter = 0; $iCounter< count($xml->faces->face); $iCounter++){
+	$xml = simplexml_load_file('http://detectface.com/api/detect?url='.urlencode($imageUrl).'&f=1') or die("XMLパースエラー");
+	for ($iCounter = 0; $iCounter< count($xml->face); $iCounter++){
 		$face[$iCounter] = new Face();
-		$face[$iCounter]->rx = $xml->faces->face[$iCounter]->{'right-eye'}['x'];
-		$face[$iCounter]->ry = $xml->faces->face[$iCounter]->{'right-eye'}['y'];
-		$face[$iCounter]->lx = $xml->faces->face[$iCounter]->{'left-eye'}['x'];
-		$face[$iCounter]->ly = $xml->faces->face[$iCounter]->{'left-eye'}['y'];
+		$rxTmp = $xml->xpath('face[@id='.$iCounter.']/features/point[@id="PR"]/@x');
+		$ryTmp = $xml->xpath('face[@id='.$iCounter.']/features/point[@id="PR"]/@y');
+		$lxTmp = $xml->xpath('face[@id='.$iCounter.']/features/point[@id="PL"]/@x');
+		$lyTmp = $xml->xpath('face[@id='.$iCounter.']/features/point[@id="PL"]/@y');
+		$face[$iCounter]->rx = $rxTmp[0];
+		$face[$iCounter]->ry = $ryTmp[0];
+		$face[$iCounter]->lx = $lxTmp[0];
+		$face[$iCounter]->ly = $lyTmp[0];
 		$face[$iCounter]->interval = sqrt(pow($face[$iCounter]->lx-$face[$iCounter]->rx,2)+pow($face[$iCounter]->ly-$face[$iCounter]->ry,2));
 		$face[$iCounter]->size = $face[$iCounter]->interval/2;
 		$face[$iCounter]->rotation = atan2($face[$iCounter]->ly-$face[$iCounter]->ry,$face[$iCounter]->lx-$face[$iCounter]->rx);
+		$test = ($xml->face[$iCounter]->xpath('//point[@id="PR"]/@x'));
 	}
 } else {
 	$imageUrl = '';
+}
+
+$defaultSponsors = array('butchi.jp', 'カヤック', 'ブッチブログ');
+if(isset($_GET['sponsor'])) {
+	$sponsor[0] = ($_GET['sponsor'][0]!='')? $_GET['sponsor'][0] : $defaultSponsors[0];
+	$sponsor[1] = ($_GET['sponsor'][1]!='')? $_GET['sponsor'][1] : $defaultSponsors[1];
+	$sponsor[2] = ($_GET['sponsor'][2]!='')? $_GET['sponsor'][2] : $defaultSponsors[2];
+} else {
+	$sponsor = $defaultSponsors;
 }
 ?>
 <html>
@@ -105,20 +119,20 @@ if(count($face)==0 && $imageUrl!="") {
 		var size = ($(".picture").width() < $(".picture").height())? $(".picture").width()*0.1 : $(".picture").width()*0.1;
 		$(".tei").css({
 			"position": "absolute",
-			"left": 2*$(this).width()/5-size/2+"px",
-			"top": $(this).height()/5+"px",
+			"left": 0.4*$(this).width()-size/2+"px",
+			"top": 0.4*$(this).height()-size/2+"px",
 			"font-size": size+"px"
 		});
 		$(".kyo").css({
 			"position": "absolute",
-			"left": 3*$(this).width()/5-size/2+"px",
-			"top": $(this).height()/5+"px",
+			"left": 0.6*$(this).width()-size/2+"px",
+			"top": 0.4*$(this).height()-size/2+"px",
 			"font-size": size+"px"
 		});
 		$(".sponsor").css({
 			"position": "absolute",
 			"width": $(".picture").width()+"px",
-			"top": 2*$(this).height()/5+"px",
+			"top": 0.6*$(this).height()-size/2+"px",
 			"text-align": "center",
 			"font-size": size+"px"
 		});
@@ -128,26 +142,26 @@ if(count($face)==0 && $imageUrl!="") {
 
 });
 </script>
-<title>tekyome!</title>
+<title>提供目ーカー</title>
 </head>
 <body>
-<h1>tekyome!</h1>
+<h1>提供目ーカー</h1>
 <form name="form1" method="get" action="<?php echo $_SERVER['SCRIPT_NAME'] ?>">
 	<input id="urlText" type="url" name="url" size="70" value="<?php print(($imageUrl!="")? $imageUrl : 'http://ec2.images-amazon.com/images/I/51-z7BZTYrL.jpg') ?>" />
 	<input type="submit" value="生成！" />
-	<div><label>スポンサー1<input type="text" name="sponsor[]" value="butchi.jp" /></label></div>
-	<div><label>スポンサー2<input type="text" name="sponsor[]" value="カヤック" /></label></div>
-	<div><label>スポンサー3<input type="text" name="sponsor[]" value="ブッチブログ" /></label></div>
+	<div><label>スポンサー1<input type="text" name="sponsor[]" value="<?php print($sponsor[0]); ?>" /></label></div>
+	<div><label>スポンサー2<input type="text" name="sponsor[]" value="<?php print($sponsor[1]); ?>" /></label></div>
+	<div><label>スポンサー3<input type="text" name="sponsor[]" value="<?php print($sponsor[2]); ?>" /></label></div>
 </form>
 <div id="result"></div>
 <div class="stage">
 	<img class="picture" src="<?php echo($imageUrl) ?>" />
 <?php
-for ($iCounter = 0; $iCounter< count($xml->faces->face); $iCounter++){
+for ($iCounter = 0; $iCounter< count($xml->face); $iCounter++){
 	print('	<div class="teikyo" id="teikyo'.$iCounter.'">');
 	print('<div class="tei" id="tei'.$iCounter.'">提</div>');
 	print('<div class="kyo" id="kyo'.$iCounter.'">供</div>');
-	print('<div class="sponsor" id="sponsor'.$iCounter.'">'.$_GET['sponsor'][$iCounter%count($_GET['sponsor'])].'</div>');
+	print('<div class="sponsor" id="sponsor'.$iCounter.'">'.$sponsor[$iCounter%count($sponsor)].'</div>');
 	print('</div>');
 	print("\n");
 }
@@ -156,7 +170,7 @@ if(count($face)==0 && $imageUrl!="") {
 	print('	<div class="teikyo" id="teikyo">
 		<div class="tei">提</div>
 		<div class="kyo">供</div>
-		<div class="sponsor">butchi.jp</div>
+		<div class="sponsor">'.$_GET['sponsor'][0].'</div>
 	</div>');
 }
 ?>
