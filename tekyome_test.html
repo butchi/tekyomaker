@@ -1,38 +1,49 @@
+<!DOCTYPE html>
 <html>
 <meta charset="utf-8">
 <head>
-<script src="jquery-1.7.2.min.js"></script>
-<script>
-$(function() {
-	$.ajax({
-		type: "GET",
-		url: "http://detectface.com/api/detect?url=http%3A%2F%2Fec2.images-amazon.com%2Fimages%2FI%2F51-z7BZTYrL._SS500_.jpg&m=0",
-		success: function(msg){ console.log( msg );}
-	})
-$('#stage').prepend('<img id="pic" class="picture" src="http://ec2.images-amazon.com/images/I/51-z7BZTYrL._SS500_.jpg" />');
-});
-</script>
 <style>
 .picture { position: absolute; left: 0px; top: 0px; }
-.teikyo { position: absolute; color: white; text-shadow: 0px 0px 3px #000000; font-size: <?php echo($size) ?>px;
- -moz-transform: rotate(<?php echo($rotation) ?>rad);
- -webkit-transform: rotate(<?php echo($rotation) ?>rad);
- -o-transform: rotate(<?php echo($rotation) ?>rad);
- -ms-transform: rotate(<?php echo($rotation) ?>rad); }
-.sponsor { left: <?php echo(($rx+$lx)/2-50) ?>px; top: <?php echo(($ry+$ly)/2+$interval) ?>px;}
+.teikyo { position: absolute; color: white; text-shadow: 0px 0px 3px #000000; font-size: 10px; }
+#tei0 {
+	position: absolute;
+	left:225.73486237259px;
+	top:100px;
+	font-size:10px;
+	-moz-transform: rotate(0.2rad);
+	-webkit-transform: rotate(0.2rad);
+	-o-transform: rotate(0.2rad);
+	-ms-transform: rotate(0.2rad); }
+.sponsor { left: 100px; top: 20px; }
+#tei1 {
+	position: absolute;
+	left:375.45687383585px;
+	top:100px;
+	font-size:10px;
+	-moz-transform: rotate(0.2rad);
+	-webkit-transform: rotate(0.2rad);
+	-o-transform: rotate(0.2rad);
+	-ms-transform: rotate(0.2rad); }
+.sponsor { left: 100px; top: 20px; }
+#tei2 {
+	position: absolute;
+	left:82px;
+	top:100px;
+	font-size:10px;
+	-moz-transform: rotate(0.2rad);
+	-webkit-transform: rotate(0.2rad);
+	-o-transform: rotate(0.2rad);
+	-ms-transform: rotate(0.2rad); }
+.sponsor { left: 100px; top: 20px; }
 </style>
 </head>
 <body>
-<div id="result"></div>
-<div id="stage">
-  <div class="teikyo tei">提</div>
-  <div class="teikyo kyo">供</div>
-  <div class="teikyo sponsor">butchi.jp</div>
+<div class="stage">
+  <img class="picture" src="http://ec2.images-amazon.com/images/I/51-z7BZTYrL._SS500_.jpg" />
+<div class="teikyo"><div class="tei" id="tei0">提</div><div class="sponsor">butchi.jp</div></div>
+
+<div class="teikyo"><div class="tei" id="tei1">提</div><div class="sponsor">butchi.jp</div></div>
+<div class="teikyo"><div class="tei" id="tei2">提</div><div class="sponsor">butchi.jp</div></div>
 </div>
-<script>
-$(".tei").css({ left: "<?php echo($rx-$size/2) ?>px", top: "<?php echo($ry-$size/2) ?>px" });
-$(".kyo").css({ left: "<?php echo($lx-$size/2) ?>px", top: "<?php echo($ly-$size/2) ?>px" });
-$(".sponsor").css("left",<?php echo($rx+$interval/2) ?>-$(".sponsor").width()/2);
-</script>
 </body>
 </html>
