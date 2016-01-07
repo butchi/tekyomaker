@@ -1,2 +1,8 @@
-API_KEY = !!!REPLACE_WITH_YOUR_API_KEY!!!;
-API_SECRET = !!!REPLACE_WITH_YOUR_API_SECRET!!!;
+window.licker = window.licker || {};
+
+(function(ns) {
+  ns.API_KEY = !!!REPLACE_WITH_YOUR_API_KEY!!!;
+  ns.API_SECRET = !!!REPLACE_WITH_YOUR_API_SECRET!!!;
+})(window.licker);
+
+
