@@ -36,10 +36,9 @@ window.licker = window.licker || {};
 
         $(function(){
           data.photos.forEach((photo) => {
-            $('.main').append(`<div id="result"></div>
-      <div class="stage">
-      <img class="picture" src="${imageUrl}" />
-      </div><div class="attention">※注意 画像を保存しても提供は付きません。</div>`);
+            var $stage = $('<div></div>').addClass('stage');
+            $stage.append(`<img class="picture" src="${imageUrl}">`);
+            $('.result').prepend($stage);
 
             var width = photo.width;
             var height = photo.height;
@@ -93,7 +92,7 @@ window.licker = window.licker || {};
                 transform: `rotate(${rotation}rad)`,
               });
 
-              $('.main').find('.stage').append($teikyo);
+              $stage.append($teikyo);
 
               // if(count($face)==0 && $imageUrl!="") {
               //   // 顔が検出されなかったとき

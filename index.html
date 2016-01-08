@@ -32,27 +32,32 @@
 
 <div class="wrapper">
 <div class="main">
-<p><a href="./">提供目ーカー</a>は、誰でも簡単に<a href="http://dic.nicovideo.jp/a/%3C%E6%8F%90%3E%3C%E4%BE%9B%3E" target="_blank">提供目</a>をつくることができるサービスです。<br />
-複数人が写っている写真にも対応しています。（<a href="./?type=twitter&twitterID=t_ishin&sponsor%5B%5D=%E5%A4%A7%E9%98%AA%E9%83%BD">サンプル1</a>）（<a href="./?type=imageUrl&imageUrl=http%3A%2F%2Fnews.walkerplus.com%2F2011%2F0917%2F2%2F20110915171944_00_400.jpg&sponsor%5B%5D=TATSUYA+KAWAGOE&sponsor%5B%5D=%E5%90%89%E9%87%8E%E5%AE%B6">サンプル2</a>）</p>
+  <p><a href="./">提供目ーカー</a>は、誰でも簡単に<a href="http://dic.nicovideo.jp/a/%3C%E6%8F%90%3E%3C%E4%BE%9B%3E" target="_blank">提供目</a>をつくることができるサービスです。<br />
+  複数人が写っている写真にも対応しています。（<a href="./?type=twitter&twitterID=t_ishin&sponsor%5B%5D=%E5%A4%A7%E9%98%AA%E9%83%BD">サンプル1</a>）（<a href="./?type=imageUrl&imageUrl=http%3A%2F%2Fnews.walkerplus.com%2F2011%2F0917%2F2%2F20110915171944_00_400.jpg&sponsor%5B%5D=TATSUYA+KAWAGOE&sponsor%5B%5D=%E5%90%89%E9%87%8E%E5%AE%B6">サンプル2</a>）</p>
 
-<form method="get" action="./" class="form-main">
-  <section>
-    <h2>画像を選ぶ（PNG, JPEG）</h2>
-    <input id="imageUrlText" type="url" name="imageUrl" size="70" value="" placeholder="画像のURLを貼り付けてください" /></label><br />
-  </section>
-  <section>
-    <h2>スポンサーを入力</h2>
-    <div>
-      <button type="button" class="btn-add-sponsor">+スポンサーの追加（最大6社）</button>
-    </div>
-    <ul class="list-sponsor">
-      <li class="item-sponsor"><input type="text" placeholder="例) 株式会社月極" class="input-sponsor"><button type="button" class="btn-delete-sponsor">×</button></li>
-    </ul>
-  </section>
-  <div class="submit"><button type="submit">生成！</button></div>
-	</form>
+  <form method="get" action="./" class="form-main">
+    <section>
+      <h2>画像を選ぶ（PNG, JPEG）</h2>
+      <input id="imageUrlText" type="url" name="imageUrl" size="70" value="" placeholder="画像のURLを貼り付けてください" /></label><br />
+    </section>
+    <section>
+      <h2>スポンサーを入力</h2>
+      <div>
+        <button type="button" class="btn-add-sponsor">+スポンサーの追加（最大6社）</button>
+      </div>
+      <ul class="list-sponsor">
+        <li class="item-sponsor"><input type="text" placeholder="例) 株式会社月極" class="input-sponsor"><button type="button" class="btn-delete-sponsor">×</button></li>
+      </ul>
+    </section>
+    <div class="submit"><button type="submit">生成！</button></div>
+  </form>
 
-<div class="serviceAttention">※サービス内容は予告なく変更する場合があります。</div>
+  <section>
+    <h2>出力</h2>
+    <div class="result"></div>
+  </section>
+
+  <div class="serviceAttention">※サービス内容は予告なく変更する場合があります。</div>
 
 <!-- /.main --></div>
 
