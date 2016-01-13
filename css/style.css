@@ -82,12 +82,12 @@ form li {
   padding-top: 15px;
 }
 
-footer {
+.footer-global {
   position: relative;
   clear: both;
 }
 
-.credit {
+.footer-global .credit {
   padding: 10px 0;
   text-align: center;
   font-size: small;
