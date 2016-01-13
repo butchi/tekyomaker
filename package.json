@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/butchi/tekyomaker/issues"
   },
-  "homepage": "https://github.com/butchi/tekyomaker#readme"
+  "homepage": "https://github.com/butchi/tekyomaker#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
 }
