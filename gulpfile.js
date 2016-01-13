@@ -43,7 +43,9 @@ gulp.task('sass', function () {
 });
 
 gulp.task("watch", function () {
-  gulp.watch('src/main.js', ['babel']);
+  gulp.watch('src/jade/**/*.jade', ['templates']);
+  gulp.watch('src/js/**/*.js', ['babel']);
+  gulp.watch('src/sass/**/*.scss', ['sass']);
 });
 
-gulp.task('default', ['babel']);
+gulp.task('default', ['templates', 'babel', 'sass']);
