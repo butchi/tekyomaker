@@ -23,7 +23,7 @@ window.licker = window.licker || {};
     });
 
     function submitHandler() {
-      var imageUrl = $('#imageUrlText').val();
+      var imageUrl = $('.intput-file').val();
       console.log(imageUrl);
 
       var client = new FCClientJS(ns.API_KEY, ns.API_SECRET);
@@ -104,31 +104,31 @@ window.licker = window.licker || {};
               // }
             });
 
-            if(faceArr.length === 0) {
-              $("#result").text("顔が検出されませんでした。");
-              $(".picture").bind("load", function() {
-                var size = ($(".picture").width() < $(".picture").height())? $(".picture").width()*0.1 : $(".picture").width()*0.1;
-                $(".tei").css({
-                  "position": "absolute",
-                  "left": 0.4*$(this).width()-size/2+"px",
-                  "top": 0.4*$(this).height()-size/2+"px",
-                  "font-size": size+"px"
-                });
-                $(".kyo").css({
-                  "position": "absolute",
-                  "left": 0.6*$(this).width()-size/2+"px",
-                  "top": 0.4*$(this).height()-size/2+"px",
-                  "font-size": size+"px"
-                });
-                $(".sponsor").css({
-                  "position": "absolute",
-                  "width": $(".picture").width()+"px",
-                  "top": 0.6*$(this).height()-size/2+"px",
-                  "text-align": "center",
-                  "font-size": size+"px"
-                });
-              });
-            }
+            // if(faceArr.length === 0) {
+            //   $("#result").text("顔が検出されませんでした。");
+            //   $(".picture").bind("load", function() {
+            //     var size = ($(".picture").width() < $(".picture").height())? $(".picture").width()*0.1 : $(".picture").width()*0.1;
+            //     $(".tei").css({
+            //       "position": "absolute",
+            //       "left": 0.4*$(this).width()-size/2+"px",
+            //       "top": 0.4*$(this).height()-size/2+"px",
+            //       "font-size": size+"px"
+            //     });
+            //     $(".kyo").css({
+            //       "position": "absolute",
+            //       "left": 0.6*$(this).width()-size/2+"px",
+            //       "top": 0.4*$(this).height()-size/2+"px",
+            //       "font-size": size+"px"
+            //     });
+            //     $(".sponsor").css({
+            //       "position": "absolute",
+            //       "width": $(".picture").width()+"px",
+            //       "top": 0.6*$(this).height()-size/2+"px",
+            //       "text-align": "center",
+            //       "font-size": size+"px"
+            //     });
+            //   });
+            // }
           });
         });
       }
