@@ -1,25 +1,23 @@
-'use strict';
-
 window.licker = window.licker || {};
 
-(function (ns) {
+(function(ns) {
   'use strict';
 
   $(function main() {
     var $listSponsor = $('.list-sponsor');
     var $sponsorTmpl = $listSponsor.find('.item-sponsor').eq(0).clone();
 
-    $('.btn-add-sponsor').on('click', function () {
+    $('.btn-add-sponsor').on('click', function() {
       $listSponsor.append($sponsorTmpl.clone());
     });
 
-    $listSponsor.on('click', '.btn-delete-sponsor', function () {
-      if ($listSponsor.find('.item-sponsor').length > 1) {
+    $listSponsor.on('click', '.btn-delete-sponsor', function() {
+      if($listSponsor.find('.item-sponsor').length > 1) {
         $(this).closest('.item-sponsor').remove();
       }
     });
 
-    $('.form-main').on('submit', function (evt) {
+    $('.form-main').on('submit', (evt) => {
       evt.preventDefault();
       submitHandler();
     });
@@ -36,30 +34,35 @@ window.licker = window.licker || {};
       function callback(data) {
         console.log(data);
 
-        $(function () {
-          data.photos.forEach(function (photo) {
+        $(function(){
+          data.photos.forEach((photo) => {
             var $stage = $('<div></div>').addClass('stage');
-            $stage.append('<img class="picture" src="' + imageUrl + '">');
+            $stage.append(`<img class="picture" src="${imageUrl}">`);
             $('.result').prepend($stage);
 
             var width = photo.width;
             var height = photo.height;
 
             var faceArr = photo.tags;
-            faceArr.forEach(function (tag, idx) {
+            faceArr.forEach((tag, idx) => {
               var sponsorName = $listSponsor.find('.item-sponsor').eq(idx).find('.input-sponsor').val();
 
-              var $teikyo = $('<div></div>').addClass('teikyo');
-              var $tei = $('<span>提</span>').addClass('tei');
-              var $kyo = $('<span>供</span>').addClass('kyo');
-              var $sponsor = $('<div></div>').addClass('sponsor').text(sponsorName);
+              var $teikyo = $('<div></div>')
+              .addClass('teikyo');
+              var $tei = $('<span>提</span>')
+              .addClass('tei');
+              var $kyo = $('<span>供</span>')
+              .addClass('kyo');
+              var $sponsor = $('<div></div>')
+              .addClass('sponsor')
+              .text(sponsorName);
               $teikyo.append($tei, $kyo, $sponsor);
 
               var lx = tag.eye_left.x * width / 100;
               var ly = tag.eye_left.y * height / 100;
               var rx = tag.eye_right.x * width / 100;
               var ry = tag.eye_right.y * height / 100;
-              var interval = Math.sqrt(Math.pow(lx - rx, 2) + Math.pow(ly - ry, 2));
+              var interval = Math.sqrt(Math.pow(lx - rx, 2)+Math.pow(ly - ry, 2));
               var size = interval / 2;
               var rotation = Math.atan2(ly - ry, lx - rx);
 
@@ -68,7 +71,7 @@ window.licker = window.licker || {};
                 left: rx - size / 2,
                 top: ry - size / 2,
                 'font-size': size,
-                transform: 'rotate(' + rotation + 'rad)'
+                transform: `rotate(${rotation}rad)`,
               });
 
               $kyo.css({
@@ -76,17 +79,17 @@ window.licker = window.licker || {};
                 left: lx - size / 2,
                 top: ly - size / 2,
                 'font-size': size,
-                transform: 'rotate(' + rotation + 'rad)'
+                transform: `rotate(${rotation}rad)`,
               });
 
               $sponsor.css({
                 position: 'absolute',
                 width: '2000px',
-                left: -Math.sin(rotation) * interval + (rx + lx) / 2 - 1000,
-                top: Math.cos(rotation) * interval + (ry + ly) / 2 - 10,
+                left: (- Math.sin(rotation) * interval + (rx + lx) / 2) - 1000,
+                top:  (  Math.cos(rotation) * interval + (ry + ly) / 2) - 10,
                 'text-align': 'center',
                 'font-size': size + 'px',
-                transform: 'rotate(' + rotation + 'rad)'
+                transform: `rotate(${rotation}rad)`,
               });
 
               $stage.append($teikyo);
