@@ -28,7 +28,7 @@ gulp.task('templates', function() {
 });
 
 gulp.task('babel', function () {
-  return gulp.src('src/main.js')
+  return gulp.src('src/js/main.js')
     .pipe(plumber({
       errorHandler: notify.onError("Error: <%= error.message %>") //<-
     }))
