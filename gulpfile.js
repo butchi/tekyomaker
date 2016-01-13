@@ -1,4 +1,5 @@
 var gulp = require("gulp");
+var jade = require('gulp-jade');
 var babel = require("gulp-babel");
 var sass = require("gulp-sass");
 var plumber = require('gulp-plumber');
@@ -13,6 +14,17 @@ gulp.task('serve', function() {
       open: true,
     }));
   gulp.task('watch');
+});
+
+gulp.task('templates', function() {
+  var YOUR_LOCALS = {};
+ 
+  gulp.src('./src/jade/*.jade')
+    .pipe(jade({
+      locals: YOUR_LOCALS,
+      pretty: true
+    }))
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('babel', function () {
