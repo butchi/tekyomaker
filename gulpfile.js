@@ -1,5 +1,6 @@
 var gulp = require("gulp");
 var babel = require("gulp-babel");
+var sass = require("gulp-sass");
 var plumber = require('gulp-plumber');
 var notify = require('gulp-notify');
 var webserver = require('gulp-webserver');
@@ -21,6 +22,12 @@ gulp.task('babel', function () {
     }))
     .pipe(babel())
     .pipe(gulp.dest('js'));
+});
+
+gulp.task('sass', function () {
+  gulp.src('./sass/**/*.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('./css'));
 });
 
 gulp.task("watch", function () {
