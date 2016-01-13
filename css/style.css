@@ -1,126 +1,114 @@
 @charset "utf-8";
+
 header {
-	background-color: #336699;
-	padding: 8px;
+  background-color: #336699;
+  padding: 8px;
 }
 
 h1 {
-	display: inline;
-	font-size: medium;
-	color: #ffffff;
+  display: inline;
+  font-size: medium;
+  color: #ffffff;
 }
 
 .social {
-	display: inline;
-	float: right;
-	margin: 0;
-	padding: 0;
+  display: inline;
+  float: right;
+  margin: 0;
+  padding: 0;
 }
 
 .social li {
-	list-style-type: none;
-	float: left;
-	margin-right: 4px;
+  list-style-type: none;
+  float: left;
+  margin-right: 4px;
 }
 
 .fb-like {
-	width: 120px;
-	height: 20px;
+  width: 120px;
+  height: 20px;
 }
 
 .wrapper {
-	background-color: #FFFFFF;
-	margin: 0 auto;
+  background-color: #FFFFFF;
+  margin: 0 auto;
 }
 
 .main {
-	padding: 10px;
-	float: left;
+  padding: 10px;
+  float: left;
 }
 
 p {
-	margin: 0;
+  margin: 0;
 }
 
 form li {
-	padding: 10px;
+  padding: 10px;
 }
 
 .btn-add-sponsor {
-	font-size: small;
-	display: inline;
-	padding-left: 15px;
+  font-size: small;
+  display: inline;
+  padding-left: 15px;
 }
 
 .deleteSponsorBtn {
-	color: #CCC;
-	cursor: pointer;
+  color: #CCC;
+  cursor: pointer;
 }
 
 .deleteSponsorBtn:hover {
-	color: #000;
+  color: #000;
 }
 
 .tweetBtn {
-	font-size: large;
-	font-weight: bold;
+  font-size: large;
+  font-weight: bold;
 }
 
 .tweetBtn img {
-	vertical-align: middle;
-	margin-right: 10px;
+  vertical-align: middle;
+  margin-right: 10px;
 }
 
 .sub {
-	float: right;
-	margin-top: 20px;
-	padding-right: 20px;
+  float: right;
+  margin-top: 20px;
+  padding-right: 20px;
 }
 
 .main .submit {
-	padding-top: 15px;
+  padding-top: 15px;
 }
 
 footer {
-	position: relative;
-	clear: both;
+  position: relative;
+  clear: both;
 }
 
-.subFooter {
-	padding: 10px 0;
-	text-align: center;
-	font-size: small;
+.credit {
+  padding: 10px 0;
+  text-align: center;
+  font-size: small;
 }
 
 .footer {
-	padding: 3px;
-	background-color: #336699;
-	color: #ffffff;
-	text-align: center;
-	font-size: small;
+  padding: 3px;
+  background-color: #336699;
+  color: #ffffff;
+  text-align: center;
+  font-size: small;
 }
 
 .stage {
-	position:relative;
-}
-.teikyo {
-	position:absolute;
-	color:white;
-	top:0px;
-	left:0px;
-	text-shadow:0px 0px 3px #000000;
-}
-#result {
-	padding: 20px 0;
-	color: #F00;
-}
-.attention {
-	padding-top: 10px;
-	font-size:small;
-	color:#999;
+  position:relative;
 }
 
-.serviceAttention {
-	font-size:small;
-	color:#999;
+.teikyo {
+  position: absolute;
+  color: white;
+  top: 0px;
+  left: 0px;
+  text-shadow: 0px 0px 3px #000000;
 }
