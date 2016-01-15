@@ -131,4 +131,86 @@ window.licker = window.licker || {};
       }
     }
   });
+
+  $(function media() {
+    var $btnShooting = $('.btn-shooting button');
+    var $btnUpload = $('.btn-upload button');
+
+    var Events = Staircase.Events;
+    Staircase.initialize();
+
+    var camera = new Staircase.Camera('#Video');
+    var previewCanvas = new Staircase.PreviewCanvas('#Canvas');
+    previewCanvas.type = 'camera';
+    var previewImage = new Staircase.PreviewCanvas('#CanvasDummy');
+    previewImage.type = 'file';
+    var dnd = new Staircase.DragAndDrop('#DragAndDrop');
+    var modal = new Staircase.Modal({ id: '#Modal', page: '.container' });
+
+    var $form = $('#Upload');
+    var $btnStartCamera = $('#StartCamera');
+    var $btnCapture = $('#Capture');
+    var $screenSelect = $('.screen--select');
+    var $screenCamera = $('.screen--camera');
+    var $screenUpload = $('.screen--upload');
+    var $navigateUpload = $screenCamera.find('.btn-navigate-upload');
+    var $navigateCamera = $screenUpload.find('.btn-navigate-camera');
+
+    // カメラがあるか
+    if (!camera.isSupport) {
+      $btnStartCamera.hide();
+      $navigateCamera.hide();
+    }
+
+    // カメラ起動
+    $btnStartCamera.on('click', function (e) {
+      e.preventDefault();
+      camera.powerOn();
+    });
+
+    // 撮影ボタン
+    $btnCapture.on('click', function (e) {
+      e.preventDefault();
+      var video = camera.getVideo();
+      previewCanvas.draw(video);
+      $btnShooting.attr('disabled', true);
+      camera.powerOff();
+      // @postImage(@previewCanvas)
+    });
+
+    // ファイルアップロード
+    $form.find('input').on('change', function (e) {
+      // $('.loading').show()
+      $btnShooting.attr('disabled', true);
+      $btnUpload.attr('disabled', true);
+      $('.btn-upload .file').addClass('disabled');
+      $navigateCamera.hide();
+      $navigateUpload.hide();
+
+      // @$form.submit()
+    });
+
+    // ドラッグアンドドロップ
+    dnd.on(Events.DND_LOAD_IMG, function (e, image, file) {
+
+      // if file.size >= 2097152
+      //     alert('アップロードサイズ上限を超えています。')
+
+      previewImage.draw(image, image.width, image.height);
+      postImage(previewImage);
+    });
+
+    $navigateUpload.on('click', function () {
+      $screenCamera.hide();
+      $screenCamera.find('.error').hide();
+      $screenUpload.show();
+    });
+
+    $navigateCamera.on('click', function () {
+      $screenUpload.hide();
+      $screenUpload.find('.error').hide();
+      camera.powerOn();
+      $screenCamera.show();
+    });
+  });
 })(window.licker);
