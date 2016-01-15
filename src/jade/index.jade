@@ -47,7 +47,7 @@ html
         form.form-main(method='get', action='./')
           section
             h2 画像を選ぶ（PNG, JPEG）
-            input.intput-file(type='url', size='70', value='', placeholder='画像のURLを貼り付けてください')
+            input.intput-file(type='url', size='70', value='http://news.walkerplus.com/2011/0917/2/20110915171944_00_400.jpg', placeholder='画像のURLを貼り付けてください')
             br
           section
             h2 スポンサーを入力
@@ -111,6 +111,7 @@ html
         .loading-icon
       // /.content-box
 
+    button.btn-draw 描画
 
     script(src='js/lib/jquery.min.js')
     script(src='js/lib/eventemitter2.js')
