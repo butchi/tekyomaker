@@ -44,11 +44,41 @@ html
           | ）（
           a(href='./?type=imageUrl&imageUrl=http%3A%2F%2Fnews.walkerplus.com%2F2011%2F0917%2F2%2F20110915171944_00_400.jpg&sponsor%5B%5D=TATSUYA+KAWAGOE&sponsor%5B%5D=%E5%90%89%E9%87%8E%E5%AE%B6') サンプル2
           | ）
-        form.form-main(method='get', action='./')
-          section
-            h2 画像を選ぶ（PNG, JPEG）
-            input.intput-file(type='url', size='70', value='http://news.walkerplus.com/2011/0917/2/20110915171944_00_400.jpg', placeholder='画像のURLを貼り付けてください')
-            br
+        .block-input
+          .screen.screen--select(data-step='0')
+            ul.list-method
+              li.item
+                button#StartCamera.bgimg-button.btn-camera(type='button') カメラで撮影する
+              li.item
+                button.bgimg-button.btn-upload(type='button') 画像をアップロード
+            // /.screen-select
+          .screen.screen--camera(data-step='1')
+            p.instruction ガイドに合わせて撮影してください。
+            .face-canvas
+              #Camera.camera
+                video#Video(width='400', height='300', autoplay='1')
+                .guide
+              #Preview.preview
+                canvas#Canvas(width='400', height='300')
+                canvas#CanvasDummy(width='400', height='300', style='display: none;')
+            p.btn-shooting
+              button#Capture.bgimg-button.button_state-type_four(type='button') 撮影する
+            p.btn-navigate-upload
+              button.bgimg-button(type='button') 画像をアップロード
+            // /.screen-camera
+          .screen.screen--upload(data-step='1')
+            p.instruction 正面から撮った、顔全体が写っている画像をアップロードしてください。
+            #DragAndDrop.face-canvas
+              p.note
+                span.none-display ここにドラッグ＆ドロップしてもアップロードできます。
+            form
+              p#FileSelect.btn-upload
+                input.file(type='file', name='img', accept='image/*')
+                button.bgimg-button.button_state-type_four(type='button') 画像をアップロード
+            p.btn-navigate-camera
+              button.bgimg-button(type='button')
+                span.none-display カメラで撮影する
+            // /.screen-upload
           section
             h2 スポンサーを入力
             div
@@ -58,7 +88,7 @@ html
                 input.input-sponsor(type='text', placeholder='例) 株式会社月極')
                 button.btn-delete-sponsor(type='button') ×
           .submit
-            button(type='submit') 生成！
+            button.btn-generate(type='button') 生成！
         section
           h2 出力
           .result
@@ -71,47 +101,6 @@ html
           | と、ゴランノス・ポンサーの提供でお送りしています。
         .footer Copyright 2012 - 2016 音羅院一族
       // /.wrapper
-
-    .content-box
-      .screen.screen--select(data-step='0')
-        ul.list-method
-          li.item
-            button#StartCamera.bgimg-button.btn-camera(type='button') カメラで撮影する
-          li.item
-            button.bgimg-button.btn-upload(type='button') 画像をアップロード
-        // /.screen-select
-      .screen.screen--camera(data-step='1')
-        p.instruction ガイドに合わせて撮影してください。
-        .face-canvas
-          #Camera.camera
-            video#Video(width='400', height='300', autoplay='1')
-            .guide
-          #Preview.preview
-            canvas#Canvas(width='400', height='300')
-            canvas#CanvasDummy(width='400', height='300', style='display: none;')
-        p.btn-shooting
-          button#Capture.bgimg-button.button_state-type_four(type='submit') 撮影する
-        p.btn-navigate-upload
-          button.bgimg-button(type='button') 画像をアップロード
-        // /.screen-camera
-      .screen.screen--upload(data-step='1')
-        p.instruction 正面から撮った、顔全体が写っている画像をアップロードしてください。
-        #DragAndDrop.face-canvas
-          p.note
-            span.none-display ここにドラッグ＆ドロップしてもアップロードできます。
-        form
-          p#FileSelect.btn-upload
-            input.file(type='file', name='img', accept='image/*')
-            button.bgimg-button.button_state-type_four(type='button') 画像をアップロード
-        p.btn-navigate-camera
-          button.bgimg-button(type='button')
-            span.none-display カメラで撮影する
-        // /.screen-upload
-      .loading
-        .loading-icon
-      // /.content-box
-
-    button.btn-draw 描画
 
     script(src='js/lib/jquery.min.js')
     script(src='js/lib/eventemitter2.js')
