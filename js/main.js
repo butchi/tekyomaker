@@ -50,10 +50,12 @@ window.licker = window.licker || {};
     }
 
     $('.btn-camera').on('click', function () {
+      $('.screen[data-step="0"]').hide();
       $screenCamera.show();
     });
 
     $('.btn-upload').on('click', function () {
+      $('.screen[data-step="0"]').hide();
       $screenUpload.show();
     });
 
