@@ -4,7 +4,9 @@ html
   head
     link(rel='icon', href='favicon.ico', type='image/x-icon')
     link(rel='Shortcut Icon', type='image/x-icon', href='favicon.ico')
+    link(href='bower_components/material-design-lite/material.min.css', rel='stylesheet', type='text/css')
     link(href='css/style.css', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet', type='text/css')
     title 提供目ーカー
   body
     // Facebook
@@ -48,9 +50,9 @@ html
           .screen.screen--select(data-step='0')
             ul.list-method
               li.item
-                button#StartCamera.bgimg-button.btn-camera(type='button') カメラで撮影する
+                button#StartCamera.material-icons.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.bgimg-button.btn-camera(type='button') photo_camera
               li.item
-                button.bgimg-button.btn-upload(type='button') 画像をアップロード
+                button.material-icons.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.bgimg-button.btn-upload(type='button') file_upload
             // /.screen-select
           .screen.screen--camera(data-step='1')
             p.instruction ガイドに合わせて撮影してください。
@@ -62,9 +64,9 @@ html
                 canvas#Canvas(width='400', height='300')
                 canvas#CanvasDummy(width='400', height='300', style='display: none;')
             p.btn-shooting
-              button#Capture.bgimg-button.button_state-type_four(type='button') 撮影する
+              button.material-icons#Capture.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.bgimg-button.button_state-type_four(type='button') photo_camera
             p.btn-navigate-upload
-              button.bgimg-button(type='button') 画像をアップロード
+              button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.bgimg-button(type='button') 画像をアップロード
             // /.screen-camera
           .screen.screen--upload(data-step='1')
             p.instruction 正面から撮った、顔全体が写っている画像をアップロードしてください。
@@ -74,21 +76,21 @@ html
             form
               p#FileSelect.btn-upload
                 input.file(type='file', name='img', accept='image/*')
-                button.bgimg-button.button_state-type_four(type='button') 画像をアップロード
+                button.material-icons.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.bgimg-button.button_state-type_four(type='button') file_upload
             p.btn-navigate-camera
-              button.bgimg-button(type='button')
+              button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.bgimg-button(type='button')
                 span.none-display カメラで撮影する
             // /.screen-upload
           section
             h2 スポンサーを入力
             div
-              button.btn-add-sponsor(type='button') +スポンサーの追加（最大6社）
+              button.icon.material-icons.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--fab.btn-add-sponsor(type='button') add
             ul.list-sponsor
               li.item-sponsor
-                input.input-sponsor(type='text', placeholder='例) 株式会社月極')
-                button.btn-delete-sponsor(type='button') ×
+                input.mdl-textfield__input.input-sponsor(type='text', placeholder='例) 株式会社月極')
+                button.material-icons.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab.btn-delete-sponsor(type='button') delete
           .submit
-            button.btn-generate(type='button') 生成！
+            button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.btn-generate(type='button') 生成！
         section
           h2 出力
           .result
@@ -102,8 +104,9 @@ html
         .footer Copyright 2012 - 2016 音羅院一族
       // /.wrapper
 
-    script(src='js/lib/jquery.min.js')
-    script(src='js/lib/eventemitter2.js')
+    script(src='bower_components/jquery/dist/jquery.min.js')
+    script(src='bower_components/material-design-lite/material.min.js')
+    script(src='bower_components/eventemitter2/lib/eventemitter2.js')
     script(src='js/lib/staircase.js')
     script(src='js/lib/FCClientJS.js')
     script(src='js/auth_code.js')

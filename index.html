@@ -4,7 +4,9 @@
   <head>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico">
+    <link href="bower_components/material-design-lite/material.min.css" rel="stylesheet" type="text/css">
     <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     <title>提供目ーカー</title>
   </head>
   <body>
@@ -41,10 +43,10 @@
           <div data-step="0" class="screen screen--select">
             <ul class="list-method">
               <li class="item">
-                <button id="StartCamera" type="button" class="bgimg-button btn-camera">カメラで撮影する</button>
+                <button id="StartCamera" type="button" class="material-icons mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bgimg-button btn-camera">photo_camera</button>
               </li>
               <li class="item">
-                <button type="button" class="bgimg-button btn-upload">画像をアップロード</button>
+                <button type="button" class="material-icons mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bgimg-button btn-upload">file_upload</button>
               </li>
             </ul>
             <!-- /.screen-select-->
@@ -62,10 +64,10 @@
               </div>
             </div>
             <p class="btn-shooting">
-              <button id="Capture" type="button" class="bgimg-button button_state-type_four">撮影する</button>
+              <button id="Capture" type="button" class="material-icons mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bgimg-button button_state-type_four">photo_camera</button>
             </p>
             <p class="btn-navigate-upload">
-              <button type="button" class="bgimg-button">画像をアップロード</button>
+              <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bgimg-button">画像をアップロード</button>
             </p>
             <!-- /.screen-camera-->
           </div>
@@ -77,28 +79,28 @@
             <form>
               <p id="FileSelect" class="btn-upload">
                 <input type="file" name="img" accept="image/*" class="file">
-                <button type="button" class="bgimg-button button_state-type_four">画像をアップロード</button>
+                <button type="button" class="material-icons mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bgimg-button button_state-type_four">file_upload</button>
               </p>
             </form>
             <p class="btn-navigate-camera">
-              <button type="button" class="bgimg-button"><span class="none-display">カメラで撮影する</span></button>
+              <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bgimg-button"><span class="none-display">カメラで撮影する</span></button>
             </p>
             <!-- /.screen-upload-->
           </div>
           <section>
             <h2>スポンサーを入力</h2>
             <div>
-              <button type="button" class="btn-add-sponsor">+スポンサーの追加（最大6社）</button>
+              <button type="button" class="icon material-icons mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab btn-add-sponsor">add</button>
             </div>
             <ul class="list-sponsor">
               <li class="item-sponsor">
-                <input type="text" placeholder="例) 株式会社月極" class="input-sponsor">
-                <button type="button" class="btn-delete-sponsor">×</button>
+                <input type="text" placeholder="例) 株式会社月極" class="mdl-textfield__input input-sponsor">
+                <button type="button" class="material-icons mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab btn-delete-sponsor">delete</button>
               </li>
             </ul>
           </section>
           <div class="submit">
-            <button type="button" class="btn-generate">生成！</button>
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-generate">生成！</button>
           </div>
         </div>
         <section>
@@ -114,8 +116,9 @@
       </footer>
       <!-- /.wrapper-->
     </div>
-    <script src="js/lib/jquery.min.js"></script>
-    <script src="js/lib/eventemitter2.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/material-design-lite/material.min.js"></script>
+    <script src="bower_components/eventemitter2/lib/eventemitter2.js"></script>
     <script src="js/lib/staircase.js"></script>
     <script src="js/lib/FCClientJS.js"></script>
     <script src="js/auth_code.js"></script>

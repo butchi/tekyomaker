@@ -43,25 +43,6 @@ p {
   margin: 0;
 }
 
-form li {
-  padding: 10px;
-}
-
-.btn-add-sponsor {
-  font-size: small;
-  display: inline;
-  padding-left: 15px;
-}
-
-.deleteSponsorBtn {
-  color: #CCC;
-  cursor: pointer;
-}
-
-.deleteSponsorBtn:hover {
-  color: #000;
-}
-
 .tweetBtn {
   font-size: large;
   font-weight: bold;
@@ -76,10 +57,6 @@ form li {
   float: right;
   margin-top: 20px;
   padding-right: 20px;
-}
-
-.main .submit {
-  padding-top: 15px;
 }
 
 .footer-global {
