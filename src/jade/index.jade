@@ -5,34 +5,15 @@ html
     link(rel='icon', href='favicon.ico', type='image/x-icon')
     link(rel='Shortcut Icon', type='image/x-icon', href='favicon.ico')
     link(href='bower_components/material-design-lite/material.min.css', rel='stylesheet', type='text/css')
-    link(href='css/style.css', rel='stylesheet', type='text/css')
     link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet', type='text/css')
+    link(href='css/style.css', rel='stylesheet', type='text/css')
     title 提供目ーカー
   body
-    // Facebook
-    #fb-root
-    script.
-      (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1";
-      fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-    // /Facebook
+    include ./includes/fb-root.jade
     header
       h1 提供目ーカー
       ul.social
-        li
-          a.hatena-bookmark-button(href='http://b.hatena.ne.jp/entry/http://tekyomaker.onra.in/', data-hatena-bookmark-title='提供目ーカー', data-hatena-bookmark-layout='standard', title='このエントリーをはてなブックマークに追加')
-            img(src='http://b.st-hatena.com/images/entry-button/button-only.gif', alt='このエントリーをはてなブックマークに追加', width='20', height='20', style='border: none;')
-          script(type='text/javascript', src='http://b.st-hatena.com/js/bookmark_button.js', charset='utf-8', async='async')
-        li
-          .fb-like(data-href='http://tekyomaker.onra.in/', data-send='false', data-layout='button_count', data-width='120', data-show-faces='false')
-        li
-          a.twitter-share-button(href='https://twitter.com/share', data-url='http://tekyomaker.onra.in/', data-lang='ja', data-hashtags='tekyomaker') ツイート
-          script.
-            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+        include ./includes/social.jade
     .wrapper
       .main
         p
@@ -41,11 +22,8 @@ html
           a(href='http://dic.nicovideo.jp/a/%3C%E6%8F%90%3E%3C%E4%BE%9B%3E', target='_blank') 提供目
           | をつくることができるサービスです。
           br
-          |   複数人が写っている写真にも対応しています。（
-          a(href='./?type=twitter&twitterID=t_ishin&sponsor%5B%5D=%E5%A4%A7%E9%98%AA%E9%83%BD') サンプル1
-          | ）（
-          a(href='./?type=imageUrl&imageUrl=http%3A%2F%2Fnews.walkerplus.com%2F2011%2F0917%2F2%2F20110915171944_00_400.jpg&sponsor%5B%5D=TATSUYA+KAWAGOE&sponsor%5B%5D=%E5%90%89%E9%87%8E%E5%AE%B6') サンプル2
-          | ）
+        p
+          | 複数人が写っている写真にも対応しています。
         .block-input
           .screen.screen--select(data-step='0')
             ul.list-method
@@ -62,7 +40,7 @@ html
                 .guide
               #Preview.preview
                 canvas#Canvas(width='400', height='300')
-                canvas#CanvasDummy(width='400', height='300', style='display: none;')
+                canvas#CanvasDummy(width='400', height='300')
             p.btn-shooting
               button.material-icons#Capture.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.bgimg-button.button_state-type_four(type='button') photo_camera
             p.btn-navigate-upload
