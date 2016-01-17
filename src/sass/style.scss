@@ -7,7 +7,7 @@ header {
 
 h1 {
   display: inline;
-  font-size: medium;
+  font-size: large;
   color: #ffffff;
 }
 
@@ -21,42 +21,15 @@ h1 {
 .social li {
   list-style-type: none;
   float: left;
-  margin-right: 4px;
-}
-
-.fb-like {
-  width: 120px;
-  height: 20px;
+  margin-right: 8px;
 }
 
 .wrapper {
-  background-color: #FFFFFF;
   margin: 0 auto;
 }
 
 .main {
   padding: 10px;
-  float: left;
-}
-
-p {
-  margin: 0;
-}
-
-.tweetBtn {
-  font-size: large;
-  font-weight: bold;
-}
-
-.tweetBtn img {
-  vertical-align: middle;
-  margin-right: 10px;
-}
-
-.sub {
-  float: right;
-  margin-top: 20px;
-  padding-right: 20px;
 }
 
 .footer-global {
@@ -76,18 +49,6 @@ p {
   color: #ffffff;
   text-align: center;
   font-size: small;
-}
-
-.stage {
-  position:relative;
-}
-
-.teikyo {
-  position: absolute;
-  color: white;
-  top: 0px;
-  left: 0px;
-  text-shadow: 0px 0px 3px #000000;
 }
 
 .screen--camera,
