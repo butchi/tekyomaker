@@ -1,164 +1,70 @@
-'use strict';
+import 'https://code.jquery.com/jquery-3.6.3.min.js';
+import 'https://cdn.jsdelivr.net/gh/cgarciagl/face-api.js@0.22.2/dist/face-api.min.js';
 
-window.licker = window.licker || {};
+const uploadImage = async _ => {
+  const imgFile = document.querySelector('#upload input').files[0]
+  const img = await faceapi.bufferToImage(imgFile)
+  document.querySelector('#original').src = img.src
 
-(function (ns) {
-  'use strict';
+  const detectionsWithLandmarks = await faceapi
+    .detectAllFaces(img)
+    .withFaceLandmarks()
 
-  $(function main() {
-    var $listSponsor = $('.list-sponsor');
-    var $sponsorTmpl = $listSponsor.find('.item-sponsor').eq(0).clone();
+  var canvasElm = document.querySelector('canvas');
+  canvasElm.width = img.width
+  canvasElm.height = img.height
+  var ctx = canvasElm.getContext('2d');
 
-    var $btnShooting = $('.btn-shooting button');
-    var $btnUpload = $('.btn-upload button');
+  const personArr = detectionsWithLandmarks
+    .map(l => [l.landmarks.getLeftEye(), l.landmarks.getRightEye()].map(eyeLmArr => eyeLmArr.reduce((p, c) => ({
+      x: p.x + c.x / eyeLmArr.length,
+      y: p.y + c.y / eyeLmArr.length,
+    }), { x: 0, y: 0 })))
 
-    $('.btn-add-sponsor').on('click', function () {
-      $listSponsor.append($sponsorTmpl.clone());
-    });
+  globalThis.ratio = 1
 
-    $listSponsor.on('click', '.btn-delete-sponsor', function () {
-      if ($listSponsor.find('.item-sponsor').length > 1) {
-        $(this).closest('.item-sponsor').remove();
-      }
-    });
+  const ticker = _ => {
+    ctx.drawImage(img, 0, 0)
 
-    var Events = Staircase.Events;
-    Staircase.initialize();
+    personArr.forEach(eyeArr => {
+      const lx = eyeArr[0].x;
+      const ly = eyeArr[0].y;
+      const rx = eyeArr[1].x;
+      const ry = eyeArr[1].y;
 
-    var camera = new Staircase.Camera('#Video');
-    var previewCanvas = new Staircase.PreviewCanvas('#Canvas');
-    ns.previewCanvas = previewCanvas;
-    previewCanvas.type = 'camera';
-    var previewImage = new Staircase.PreviewCanvas('#CanvasDummy');
-    previewImage.type = 'file';
-    var dnd = new Staircase.DragAndDrop('#DragAndDrop');
-    var modal = new Staircase.Modal({ id: '#Modal', page: '.container' });
+      const interval = Math.sqrt(Math.pow(lx - rx, 2) + Math.pow(ly - ry, 2));
+      const size = interval / 2;
+      const rotation = Math.atan2(ry - ly, rx - lx);
 
-    var $form = $('#Upload');
-    var $btnStartCamera = $('#StartCamera');
-    var $btnCapture = $('#Capture');
-    var $screenSelect = $('.screen--select');
-    var $screenCamera = $('.screen--camera');
-    var $screenUpload = $('.screen--upload');
-    var $navigateUpload = $screenCamera.find('.btn-navigate-upload');
-    var $navigateCamera = $screenUpload.find('.btn-navigate-camera');
+      ctx.font = `${size * ratio}px sans-serif`;
+      ctx.fillStyle = "white";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "top";
 
-    // カメラがあるか
-    if (!camera.isSupport) {
-      $btnStartCamera.hide();
-      $navigateCamera.hide();
-    }
+      eyeArr.forEach((eye, idx) => {
+        ctx.save();
+        ctx.translate(eye.x, eye.y);
+        ctx.rotate(rotation);
+        ctx.fillText("提供"[idx], 0, - size * ratio / 2);
+        ctx.restore();
+      })
+    })
 
-    $('.btn-camera').on('click', function () {
-      $('.screen[data-step="0"]').hide();
-      $screenCamera.show();
-    });
+    requestAnimationFrame(ticker)
+  }
 
-    $('.btn-upload').on('click', function () {
-      $('.screen[data-step="0"]').hide();
-      $screenUpload.show();
-    });
+  ticker()
+}
 
-    $('.btn-navigate-upload').on('click', function () {
-      $screenUpload.hide();
-      $screenCamera.show();
-    });
+$(globalThis).on('load', async _evt => {
+  await faceapi.loadFaceLandmarkModel('./js/lib/weights')
+  await faceapi.loadFaceRecognitionModel('./js/lib/weights')
+  await faceapi.nets.ssdMobilenetv1.loadFromUri('./js/lib/weights')
 
-    $('.btn-navigate-camera').on('click', function () {
-      $screenCamera.hide();
-      $screenUpload.show();
-    });
+  $('.loading').hide()
 
-    // カメラ起動
-    $btnStartCamera.on('click', function (e) {
-      e.preventDefault();
-      camera.powerOn();
-    });
+  $('#upload input').on('change', _evt => {
+    uploadImage()
+  })
+})
 
-    // 撮影ボタン
-    $btnCapture.on('click', function (e) {
-      e.preventDefault();
-      var video = camera.getVideo();
-      previewCanvas.draw(video);
-      $btnShooting.attr('disabled', true);
-      camera.powerOff();
-      // @postImage(@previewCanvas)
-    });
-
-    // ファイルアップロード
-    $form.find('input').on('change', function (e) {
-      // $('.loading').show()
-      $btnShooting.attr('disabled', true);
-      $btnUpload.attr('disabled', true);
-      $('.btn-upload .file').addClass('disabled');
-      $navigateCamera.hide();
-      $navigateUpload.hide();
-
-      // @$form.submit()
-    });
-
-    // ドラッグアンドドロップ
-    dnd.on(Events.DND_LOAD_IMG, function (e, image, file) {
-
-      // if file.size >= 2097152
-      //     alert('アップロードサイズ上限を超えています。')
-
-      previewImage.draw(image, image.width, image.height);
-      postImage(previewImage);
-    });
-
-    $navigateUpload.on('click', function () {
-      $screenCamera.hide();
-      $screenCamera.find('.error').hide();
-      $screenUpload.show();
-    });
-
-    $navigateCamera.on('click', function () {
-      $screenUpload.hide();
-      $screenUpload.find('.error').hide();
-      camera.powerOn();
-      $screenCamera.show();
-    });
-
-    $('.block-input .btn-generate').on('click', function (evt) {
-      console.info('generating');
-      var canvas = ns.previewCanvas.getCanvas();
-      var ctx = canvas.getContext('2d');
-
-      var blob = ns.previewCanvas.getBlob();
-      // var file = blobToFile(blob, 'test.png');
-
-      var client = new FCClientJS(ns.API_KEY, ns.API_SECRET);
-      var options = new Object();
-      // options.detect_all_feature_points = true;
-      client.facesDetect(null, [blob], options, callback);
-
-      function callback(data) {
-        console.log(data);
-        JSON.parse(data).photos.forEach(function (photo) {
-          var width = photo.width;
-          var height = photo.height;
-
-          var faceArr = photo.tags;
-          faceArr.forEach(function (tag, idx) {
-            var lx = tag.eye_left.x * width / 100;
-            var ly = tag.eye_left.y * height / 100;
-            var rx = tag.eye_right.x * width / 100;
-            var ry = tag.eye_right.y * height / 100;
-            var interval = Math.sqrt(Math.pow(lx - rx, 2) + Math.pow(ly - ry, 2));
-            var size = interval / 2;
-            var rotation = Math.atan2(ly - ry, lx - rx);
-
-            ctx.fillStyle = "white";
-            ctx.font = "30px 'ＭＳ ゴシック'";
-            ctx.textAlign = "left";
-            ctx.textBaseline = "top";
-
-            ctx.fillText("提", rx - 15, ry - 15, 200);
-            ctx.fillText("供", lx - 15, ly - 15, 200);
-          });
-        });
-      }
-    });
-  });
-})(window.licker);

@@ -3,12 +3,12 @@
 <meta charset="utf-8">
 
 <head>
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico">
-  <link href="bower_components/reset-css/reset.css" rel="stylesheet" type="text/css">
-  <link href="bower_components/material-design-lite/material.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
-  <link href="css/style.css" rel="stylesheet" type="text/css">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="Shortcut Icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/destyle.css@1.0.15/destyle.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
   <title>提供目ーカー</title>
 </head>
 
@@ -26,7 +26,7 @@
   <header>
     <h1>提供目ーカー</h1>
     <ul class="social">
-      <li><a href="http://b.hatena.ne.jp/entry/http://tekyomaker.onra.in/" data-hatena-bookmark-title="提供目ーカー"
+      <li><a href="http://b.hatena.ne.jp/entry/https://butchi.github.io/tekyomaker/" data-hatena-bookmark-title="提供目ーカー"
           data-hatena-bookmark-layout="standard" title="このエントリーをはてなブックマークに追加" class="hatena-bookmark-button"><img
             src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20"
             height="20" style="border: none;"></a>
@@ -34,10 +34,10 @@
           async="async"></script>
       </li>
       <li>
-        <div data-href="http://tekyomaker.onra.in/" data-send="false" data-layout="button_count" data-width="120"
-          data-show-faces="false" class="fb-like"></div>
+        <div data-href="https://butchi.github.io/tekyomaker/" data-send="false" data-layout="button_count"
+          data-width="120" data-show-faces="false" class="fb-like"></div>
       </li>
-      <li><a href="https://twitter.com/share" data-url="http://tekyomaker.onra.in/" data-lang="ja"
+      <li><a href="https://twitter.com/share" data-url="https://butchi.github.io/tekyomaker/" data-lang="ja"
           data-hashtags="tekyomaker" class="twitter-share-button">ツイート</a>
         <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
       </li>
@@ -48,96 +48,27 @@
       <p><a href="./">提供目ーカー</a>は、誰でも簡単に<a href="http://dic.nicovideo.jp/a/%3C%E6%8F%90%3E%3C%E4%BE%9B%3E"
           target="_blank">提供目</a>をつくることができるサービスです。<br></p>
       <p>複数人が写っている写真にも対応しています。</p>
-      <div class="block-input">
-        <div data-step="0" class="screen screen--select">
-          <ul class="list-method">
-            <li class="item">
-              <button id="StartCamera" type="button"
-                class="material-icons mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bgimg-button btn-camera">photo_camera</button>
-            </li>
-            <li class="item">
-              <button type="button"
-                class="material-icons mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bgimg-button btn-upload">file_upload</button>
-            </li>
-          </ul>
-          <!-- /.screen-select-->
-        </div>
-        <div data-step="1" class="screen screen--camera">
-          <p class="instruction">ガイドに合わせて撮影してください。</p>
-          <div class="face-canvas">
-            <div id="Camera" class="camera">
-              <video id="Video" width="400" height="300" autoplay="1"></video>
-              <div class="guide"></div>
-            </div>
-            <div id="Preview" class="preview">
-              <canvas id="Canvas" width="400" height="300"></canvas>
-              <canvas id="CanvasDummy" width="400" height="300"></canvas>
-            </div>
-          </div>
-          <p class="btn-shooting">
-            <button id="Capture" type="button"
-              class="material-icons mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bgimg-button button_state-type_four">photo_camera</button>
+      <div class="stage" id="stage">
+        <canvas width="1080" height="1920"></canvas>
+        <img id="original" src="https://placehold.jp/1920x1080.jpg" alt="元画像">
+        <form id="upload">
+          <p class="btn-upload">
+            <input type="file" accept=".jpg, .jpeg, .png">
           </p>
-          <p class="btn-navigate-upload">
-            <button type="button"
-              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bgimg-button">画像をアップロード</button>
-          </p>
-          <!-- /.screen-camera-->
-        </div>
-        <div data-step="1" class="screen screen--upload">
-          <p class="instruction">正面から撮った、顔全体が写っている画像をアップロードしてください。</p>
-          <div id="DragAndDrop" class="face-canvas">
-            <p class="note"><span class="none-display">ここにドラッグ＆ドロップしてもアップロードできます。</span></p>
-          </div>
-          <form>
-            <p id="FileSelect" class="btn-upload">
-              <input type="file" name="img" accept="image/*" class="file">
-              <button type="button"
-                class="material-icons mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bgimg-button button_state-type_four">file_upload</button>
-            </p>
-          </form>
-          <p class="btn-navigate-camera">
-            <button type="button"
-              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bgimg-button"><span
-                class="none-display">カメラで撮影する</span></button>
-          </p>
-          <!-- /.screen-upload-->
-        </div>
-        <section>
-          <h2>スポンサーを入力</h2>
-          <div>
-            <button type="button"
-              class="icon material-icons mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab btn-add-sponsor">add</button>
-          </div>
-          <ul class="list-sponsor">
-            <li class="item-sponsor">
-              <input type="text" placeholder="例) 株式会社月極" class="mdl-textfield__input input-sponsor">
-              <button type="button"
-                class="material-icons mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab btn-delete-sponsor">delete</button>
-            </li>
-          </ul>
-        </section>
-        <div class="submit">
-          <button type="button"
-            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect btn-generate">生成！</button>
-        </div>
+        </form>
       </div>
       <div class="serviceAttention">※サービス内容は予告なく変更する場合があります。</div>
       <!-- /.main-->
     </div>
     <footer class="footer-global">
-      <div class="credit">提供目ーカーは、<a href="http://onra.in/">音羅院一族</a>と、ゴランノス・ポンサーの提供でお送りしています。</div>
-      <div class="footer">Copyright 2012 - 2016 音羅院一族</div>
+      <div class="credit">提供目ーカーは、ゴランノス・ポンサーの提供でお送りしています。</div>
+      <div class="footer">Copyright 2023 提供目ーカー</div>
     </footer>
+    <div class="loading">Loading...</div>
     <!-- /.wrapper-->
   </div>
-  <script src="bower_components/jquery/dist/jquery.min.js"></script>
-  <script src="bower_components/material-design-lite/material.min.js"></script>
-  <script src="bower_components/eventemitter2/lib/eventemitter2.js"></script>
-  <script src="js/lib/staircase.js"></script>
-  <script src="js/lib/FCClientJS.js"></script>
-  <script src="js/auth_code.js"></script>
-  <script src="js/main.js"></script>
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 
 </html>
